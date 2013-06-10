@@ -1,4 +1,9 @@
+<<<<<<< HEAD:lib/paysimple/base.rb
 module Paysimple
+=======
+#require File.dirname(__FILE__)+"/psobject.rb"
+module PS
+>>>>>>> Renamed some files:lib/psj/base.rb
 
   class Base
 

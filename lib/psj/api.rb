@@ -1,5 +1,10 @@
 require 'httparty'
+<<<<<<< HEAD:lib/paysimple/api.rb
 class Api
+=======
+require 'json'
+module PS
+>>>>>>> Renamed some files:lib/psj/api.rb
 
   include HTTParty
 
