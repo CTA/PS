@@ -8,7 +8,6 @@ module PS
     #include ActiveModel::Model
 >>>>>>> Renamed some files:lib/psj/customer.rb
 
-    #CustomerId == id => true
     attr_accessor :id, :FirstName,:MiddleName,:LastName,:Email,:AltEmail,:Phone,:AltPhone,:Fax,:WebSite,:BillingAddress1,:BillingAddress2,:BillingCity,:BillingState,:BillingPostalCode,:BillingCountryCode,:ShippingSameAsBilling,:ShippingAddress1,:ShippingAddress2,:ShippingCity,:ShippingState,:ShippingPostalCode,:ShippingCountryCode,:CompanyName,:Notes,:LastModified,:CreatedOn
 
 <<<<<<< HEAD:lib/paysimple/customer.rb

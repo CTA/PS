@@ -2,7 +2,6 @@ require 'set'
 require 'active_model'
 module PS
   class PsObject < Base
-    include ActiveModel::AttributeMethods
 
     attr_accessor :apikey, :userkey, :host, :company_name
     #@@permanent_attributes = [ :apikey, :userkey, :host, :company_name ].to_set

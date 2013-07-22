@@ -11,7 +11,7 @@ module PS
         klass = types[response['SubType']]
         klass.construct_from(response['PsObject'][0])
       when Array
-        response.collect { |x| convert_to_ps_object(x) }
+        response.map { |x| convert_to_ps_object(x) }
       else
         response
       end
