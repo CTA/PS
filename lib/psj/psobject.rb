@@ -14,14 +14,6 @@ module PS
       #some activerecord like inspect method... thing
     end
 
-    def self.inherited(subclass)
-#      if subclass == 'Base' then
-#        [ 'apikey', 'userkey', 'host', 'company_name' ].each do |v|
-#          self.send("#{v}=", Paysimple::Base.send(v))
-#        end
-#      end
-    end
-
     def PsReferenceId
       self.id
     end

@@ -1,7 +1,7 @@
 require 'psj/api'
-require 'psj/customer'
 require 'psj/base'
 require 'psj/psobject'
+require 'psj/customer'
 require 'psj/util'
 
 module PS

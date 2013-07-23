@@ -1,20 +1,16 @@
 require 'httparty'
 require 'json'
 module PS
-
   module Api 
-    class << self 
-      def request(method, params={}, headers={})
-        $api.request(method, params, headers)
-      end
 
-      def self.current_connection
-        config = {
-          :apikey => $api.apikey,
-          :userkey => $api.userkey,
-          :host => $api.host
-        }
-        puts config.inspect
+    class << self 
+      def connect(format)
+        begin
+          require "psj/api/#{format}"
+        rescue LoadError
+          raise "#{format} is not a supported format"
+        end
+        $api = eval("PS::Api::#{format.upcase}").new
       end
 
       def required_attributes
@@ -23,9 +19,15 @@ module PS
         end
       end
 
-      $api.instance_methods.grep(/\w=$/).each do |method_name|
-        define_method method_name do |value|
-          $api.send(method_name, value)
+      def env 
+        $api.env
+      end
+
+      def host
+        if env == "development" then
+          "https://sandbox-api.paysimple.com/3.00/paysimpleapi"
+        elsif env == "production" then
+          "https://api.paysimple.com/3.00/paysimpleapi"
         end
       end
     end

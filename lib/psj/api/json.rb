@@ -2,7 +2,7 @@ module PS
   module Api
     class JSON
       include HTTParty
-      attr_accessor :apikey, :userkey, :company_name, :host
+      attr_accessor :apikey, :userkey, :company_name, :env
 
       #### Some Basic fields returned by Paysimple
       # results = Api.post(#{request_details})
@@ -34,13 +34,17 @@ module PS
             'Content-Length'=>postdata.length.to_s
           }
         end
-        results = self.class.post("#{@host}/#{method}",{ :body => postdata, :headers => headers })
+        results = self.class.post(
+          "#{Api.host}/#{self.name}/#{method}",
+          { :body => postdata, :headers => headers }
+        )
         #raise results.inspect
         unless results.parsed_response['d']['IsSuccess'] then 
           raise results.parsed_response['d']['ErrorMessage'].inspect
         end
         results.parsed_response['d']
       end
+
     end
   end
 end
