@@ -1,10 +1,9 @@
 require 'httparty'
 require 'json'
 module PS
-  module Api 
-
-    class << self 
-      def connect(format)
+  class Api 
+    class << self
+      def connect(format="JSON")
         begin
           require "psj/api/#{format}"
         rescue LoadError
@@ -17,6 +16,10 @@ module PS
         $api.class.instance_methods.grep(/\w=$/).map do |method| 
           method.to_s.chop.to_sym
         end
+      end
+
+      def request(method, params={}, header={})
+        $api.request(method, params, header)
       end
 
       def env 

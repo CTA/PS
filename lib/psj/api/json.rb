@@ -1,6 +1,6 @@
 module PS
-  module Api
-    class JSON
+  class Api
+    class JSON 
       include HTTParty
       attr_accessor :apikey, :userkey, :company_name, :env
 
@@ -35,7 +35,7 @@ module PS
           }
         end
         results = self.class.post(
-          "#{Api.host}/#{self.name}/#{method}",
+          "#{Api.host}/#{name()}/#{method}",
           { :body => postdata, :headers => headers }
         )
         #raise results.inspect
@@ -43,6 +43,10 @@ module PS
           raise results.parsed_response['d']['ErrorMessage'].inspect
         end
         results.parsed_response['d']
+      end
+
+      def name
+        self.class.to_s
       end
 
     end
