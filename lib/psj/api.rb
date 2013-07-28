@@ -4,11 +4,11 @@ module PS
   module Api 
     def connect(format="JSON")
       begin
-        require "psj/api/#{format}"
+        require "psj/api/#{format.downcase}"
       rescue LoadError
         raise "#{format} is not a supported format"
       end
-      $api = eval("PS::Api::#{format.upcase}").new
+      $api = eval("PS::Api::#{format.downcase.capitalize}").new
     end
 
     def required_attributes
@@ -17,8 +17,8 @@ module PS
       end
     end
 
-    def request(method, params={}, header={})
-      $api.request(method, params, header)
+    def request(method, params={})
+      Util.convert_to_ps_object($api.request(method, params))
     end
 
     def env 

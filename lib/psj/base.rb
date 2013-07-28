@@ -1,7 +1,9 @@
 #require File.dirname(__FILE__)+"/psobject.rb"
 module PS
   class Base 
+    extend Util
     extend Api
+    include Api
     ## options = {
     # :host,
     # :apikey

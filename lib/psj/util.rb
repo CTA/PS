@@ -1,22 +1,17 @@
 module PS
-
   module Util
-
     def self.convert_to_ps_object(response)
       types = {
         "PsCustomer" => PS::Customer
       }
-      case response
-      when Hash
-        klass = types[response['SubType']]
+      klass = types[response['SubType']]
+      if response['PsObject'].length == 1 then
         klass.construct_from(response['PsObject'][0])
-      when Array
-        response.map { |x| convert_to_ps_object(x) }
+      elsif response['PsObject'].length > 1
+        response['PsObject'].map { |object| klass.construct_from(object) }
       else
         response
       end
     end
-
   end
-
 end

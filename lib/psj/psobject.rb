@@ -1,17 +1,10 @@
-require 'set'
-require 'active_model'
 module PS
   class PsObject < Base
-
-    attr_accessor :apikey, :userkey, :host, :company_name
-    #@@permanent_attributes = [ :apikey, :userkey, :host, :company_name ].to_set
-
     def self.construct_from(ps_object)
       self.new(ps_object)
     end
 
     def inspect
-      #some activerecord like inspect method... thing
     end
 
     def PsReferenceId
@@ -22,5 +15,12 @@ module PS
       self.id=value
     end
 
+    def attributes
+      attributes_hash = {}
+      self.instance_variables.each do |v|
+        attributes_hash[v[1..-1].to_sym] = self.send(v[1..-1])
+      end
+      attributes_hash
+    end
   end
 end
