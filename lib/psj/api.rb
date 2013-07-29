@@ -18,7 +18,15 @@ module PS
     end
 
     def request(method, params={})
-      Util.convert_to_ps_object($api.request(method, params))
+      Util.convert_to_ps_object($api.request(method, prepare_params(params)))
+    end
+
+    def prepare_params(params)
+      camel_params = {}
+      params.each do |key, value|
+        camel_params[key.to_s.split("_").collect { |x| x.capitalize }.join.to_sym] = value
+      end
+      camel_params
     end
 
     def env 

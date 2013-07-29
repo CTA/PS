@@ -1,3 +1,16 @@
+#the yaml file for config should be in the following format:
+#:development:
+#  :apikey: ""
+#  :userkey: "" 
+#  :env: "development"
+#  :format: "json"
+#  :company_name: ""
+#:production:
+#  :apikey: ""
+#  :userkey: "" 
+#  :env: "production"
+#  :format: "json"
+#  :company_name: ""
 def formatted_connection_config(format, env=:development)
   config = YAML.load_file(File.dirname(__FILE__)+"/../spec_config/config.yml")[env]
   config[:format] = format
@@ -19,7 +32,7 @@ def connect
   })
 end
 
-def test_customer
+def test_customer_camel
   {
     :FirstName => "test",
     :MiddleName => "e",
@@ -33,5 +46,22 @@ def test_customer
     :BillingCountryCode => "USA",
     :ShippingSameAsBilling => 1,
     :CompanyName => "USA"
+  }
+end
+
+def test_customer
+  {
+    :first_name => "test",
+    :middle_name => "e",
+    :last_name => "name",
+    :email => "example@test.com",
+    :phone => "0000000000",
+    :billing_address1 => "1600 Pennsylvania Ave NW",
+    :billing_city => "Washington",
+    :billing_state => 8,
+    :billing_postal_code => 20500,
+    :billing_country_code => "USA",
+    :shipping_same_as_billing => 1,
+    :company_name => "USA"
   }
 end
