@@ -21,4 +21,14 @@ describe "An instance of", PS::PsObject do
       subject.attributes.should == attributes_hash
     end
   end
+
+  describe "#new" do
+    subject { PS::Customer.new(test_customer()) }
+
+    it "should assign attributes for the appropriate class" do 
+      subject.instance_variables.each do |v|
+        subject.send(v.to_s[1..-1]).should == test_customer[v.to_s[1..-1].to_sym]
+      end
+    end
+  end
 end

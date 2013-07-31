@@ -1,5 +1,13 @@
 module PS
   class PsObject < Base
+
+    def initialize(params = {})
+      params.each do |k, v|
+        next unless self.class.method_defined?(k)
+        send("#{k}=", v)
+      end
+    end
+
     def self.construct_from(ps_object)
       self.new(ps_object)
     end

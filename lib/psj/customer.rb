@@ -2,13 +2,6 @@ module PS
   class Customer < PsObject
     attr_accessor :ps_reference_id, :first_name,:middle_name,:last_name,:email,:alt_email,:phone,:alt_phone,:fax,:web_site,:billing_address1,:billing_address2,:billing_city,:billing_state,:billing_postal_code,:billing_country_code,:shipping_same_as_billing,:shipping_address1,:shipping_address2,:shipping_city,:shipping_state,:shipping_postal_code,:shipping_country_code,:Company_name,:notes,:last_modified,:created_on
 
-    def initialize(params = {})
-      params.each do |k, v|
-        next unless self.class.method_defined?(k)
-        send("#{k}=", v)
-      end
-    end
-    
     def self.create(options={})
       customer = new(options)
       customer.save

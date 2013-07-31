@@ -2,9 +2,10 @@
 module PS
   class Base 
     extend Util
+    #hmm...
     extend Api
     include Api
-    ## options = {
+    ## params.keys = {
     # :host,
     # :apikey
     # :userkey
