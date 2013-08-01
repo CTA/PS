@@ -2,7 +2,8 @@ require 'httparty'
 require 'json'
 module PS
   module Api 
-    def connect(format="JSON")
+    def connect(format)
+      format ||= "JSON"
       begin
         require "psj/api/#{format.downcase}"
       rescue LoadError
@@ -18,15 +19,36 @@ module PS
     end
 
     def request(method, params={})
-      Util.convert_to_ps_object($api.request(method, prepare_params(params)))
+      results = $api.request(method, camel_case_request(params))
+      Util.convert_to_ps_object(snake_case_response(results))
     end
 
-    def prepare_params(params)
+    def camel_case_request(params)
       camel_params = {}
       params.each do |key, value|
-        camel_params[key.to_s.split("_").collect { |x| x.capitalize }.join.to_sym] = value
+        if value.class == Hash then
+          camel_params[key] = {}
+          value.each do |attribute, value|
+            camel_params[key][attribute.to_s.split("_").collect { |x| x.capitalize }.join.to_sym] = value
+          end
+        else 
+          camel_params[key] = value
+        end
       end
       camel_params
+    end
+
+    def snake_case_response(params)
+      snake_case = []
+      params.delete("PsObject").each do |object|
+        snake_case_object = {}
+        object.each do |attribute, value|
+          snake_case_object[attribute.scan(/[A-Z][a-z0-9]+/).collect { |x| x.downcase }.join("_")] = value
+        end
+        snake_case << snake_case_object
+      end
+      params["PsObject"] = snake_case
+      params
     end
 
     def env 
