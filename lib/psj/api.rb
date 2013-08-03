@@ -23,6 +23,10 @@ module PS
       Util.convert_to_ps_object(snake_case_response(results))
     end
 
+    #Paysimple expects the attribute names to be in CamelCase, but that isn't 
+    #very ruby-esque; so, in an effort to be more ruby-esque, we define and 
+    #work with the attributes in snake case. The method bellow converts from 
+    #the ruby-esque snake case to PS' CamelCase.
     def camel_case_request(params)
       camel_params = {}
       params.each do |key, value|
@@ -38,6 +42,10 @@ module PS
       camel_params
     end
 
+    #Paysimple returns the attribute names in CamelCase, but the attributes use
+    #snake_case within the code base. The method bellow converts the attribute 
+    #names into snake_case so that they can be more easily dynamically assigned
+    #to the appropriate class.
     def snake_case_response(params)
       snake_case = []
       params.delete("PsObject").each do |object|

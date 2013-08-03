@@ -7,7 +7,7 @@ describe "An instance of", PS::Customer do
     subject { PS::Customer }
 
     it "should create a new customer" do
-      subject.create(test_customer())
+      p subject.create(test_customer())
     end
   end
 
@@ -15,7 +15,7 @@ describe "An instance of", PS::Customer do
     subject { PS::Customer }
 
     describe "#find" do
-      let(:customer_id) { subject.create(test_customer()).PsReferenceId }
+      let(:customer_id) { subject.create(test_customer()).attributes[:ps_reference_id] }
       context "given an id" do
         it "should find a customer" do
           customer = subject.find(customer_id)

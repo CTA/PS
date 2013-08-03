@@ -15,14 +15,6 @@ module PS
     def inspect
     end
 
-    def PsReferenceId
-      self.id
-    end
-
-    def PsReferenceId=(value)
-      self.id=value
-    end
-
     def attributes
       attributes_hash = {}
       self.instance_variables.each do |v|

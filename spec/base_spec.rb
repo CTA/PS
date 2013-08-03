@@ -9,7 +9,7 @@ describe "An instance of", PS::Base do
 
       it "should create a connection to the Paysimple API" do
         subject
-        $api.class.should == PS::Api::JSON
+        $api.class.should == PS::Api::Json
       end
 
       it "Should output the connection config" do
@@ -24,7 +24,7 @@ describe "An instance of", PS::Base do
 
       it "should default to JSON" do
         subject
-        $api.class.should == PS::Api::JSON
+        $api.class.should == PS::Api::Json
       end
     end
   end

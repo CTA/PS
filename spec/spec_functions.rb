@@ -17,8 +17,8 @@ def formatted_connection_config(format, env=:development)
   config
 end
 
-def formatless_connection_config
-  YAML.load_file(File.dirname(__FILE__)+"/../spec_config/config.yml")
+def formatless_connection_config(env=:development)
+  YAML.load_file(File.dirname(__FILE__)+"/../spec_config/config.yml")[env]
 end
 
 def connect

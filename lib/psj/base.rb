@@ -14,7 +14,7 @@ module PS
 
     def self.establish_connection(params={})
       connect(params.delete(:format))
-      if params[:env].nil? then params[:env] = "development" end
+      params[:env] ||= "development"
       validate_and_assign(params)
     end
 
@@ -24,7 +24,7 @@ module PS
         :userkey => $api.userkey,
         :host => host()
       }
-      puts config.inspect
+      p config
     end
 
     private

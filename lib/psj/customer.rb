@@ -11,14 +11,8 @@ module PS
       request("addcustomer", { :customer => attributes } )
     end
 
-    def self.find(*args)
-      if args[0].class == Fixnum then 
-        results = request("getcustomer", { :id => args[0] })
-      elsif args[0].class == Hash then
-        #do a search
-      else
-        #TODO:raise data type exception
-      end
+    def self.find(id)
+      request("getcustomer", { :id => id })
     end
 
     def self.all(page=1)
