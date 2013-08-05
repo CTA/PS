@@ -24,7 +24,7 @@ module PS
         :userkey => $api.userkey,
         :host => host()
       }
-      p config
+      puts config.inspect
     end
 
     private

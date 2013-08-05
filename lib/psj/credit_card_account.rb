@@ -1,6 +1,6 @@
 module PS
-  class CreditCardAccount < PsObject
-    attr_accessor :c_c_expiry, :c_c_ctype, :account_number, :customer_id
+  class CreditCardAccount < CustomerAccount
+    attr_accessor :c_c_expiry, :c_c_ctype, :account_number 
 
     def self.create(params={})
       self.new(params).save

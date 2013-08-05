@@ -30,6 +30,7 @@ module PS
       #}
       def request(method, params={})
         results = self.class.post(request_url(method), options_hash(params))
+        #raise results.inspect
         #TODO: have better exception handling
         unless results.parsed_response['d']['IsSuccess'] then 
           raise results.parsed_response['d']['ErrorMessage'].inspect

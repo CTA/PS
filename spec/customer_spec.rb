@@ -7,7 +7,8 @@ describe "An instance of", PS::Customer do
     subject { PS::Customer }
 
     it "should create a new customer" do
-      p subject.create(test_customer())
+      new_customer = subject.create(test_customer())
+      new_customer.class.should == subject
     end
   end
 
@@ -24,10 +25,7 @@ describe "An instance of", PS::Customer do
       end
 
       context "given a hash of customer attributes" do
-        it "should find a customer" do
-          #customer = subject.find(test_customer())
-          #customer.PsReferenceId.should == customer_id
-        end
+        it "should find a customer"
       end
 
       it "should search for a customer based off of search criteria provided."
@@ -41,5 +39,12 @@ describe "An instance of", PS::Customer do
     end
   end
 
-  
+  describe "relations" do
+    subject { PS::Customer.create(test_customer()) }
+
+    it "should find the credit card account associated with the customer" do
+      PS::CreditCardAccount.should_receive(:find).with(subject.ps_reference_id)
+      subject.credit_card_account
+    end
+  end
 end

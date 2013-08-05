@@ -1,5 +1,6 @@
 module PS
   class PsObject < Base
+    attr_accessor :ps_reference_id
 
     def initialize(params = {})
       params.each do |k, v|
