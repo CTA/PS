@@ -31,10 +31,22 @@ describe "An instance of", PS::Customer do
       it "should search for a customer based off of search criteria provided."
       it "should list all customers"
     end
+  end
 
-    describe "#all" do
-      it "should list all customers" do
-        subject.all()
+  describe "#destroy" do
+    context "given existing customer object" do
+      subject { PS::Customer.create(test_customer()) }
+
+      it "should delete a customer object that exists" do
+        subject.destroy.should == true
+      end
+    end
+
+    context "given a customer object that doesn't exist" do
+      subject { PS::Customer.new(test_customer()) }
+
+      it "should return false" do
+        subject.destroy.should == false
       end
     end
   end

@@ -31,7 +31,7 @@ module PS
       def request(method, params={})
         results = self.class.post(request_url(method), options_hash(params))
         #raise results.inspect
-        #TODO: have better exception handling
+        #TODO: have better exception handling!!!!
         unless results.parsed_response['d']['IsSuccess'] then 
           raise results.parsed_response['d']['ErrorMessage'].inspect
         end
@@ -41,10 +41,12 @@ module PS
       private
         #do some conversion for the ASP.net json dates
         def format_response_dates(response)
-          response["PsObject"].each_with_index do |ps_object, i|
-            ps_object.each do |key, value|
-              if value.instance_of?(String) && value.include?("Date") then
-                response["PsObject"][i][key] = parse_date(value)
+          if response["PsObject"] then
+            response["PsObject"].each_with_index do |ps_object, i|
+              ps_object.each do |key, value|
+                if value.instance_of?(String) && value.include?("Date") then
+                  response["PsObject"][i][key] = parse_date(value)
+                end
               end
             end
           end

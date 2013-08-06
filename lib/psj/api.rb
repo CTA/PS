@@ -20,7 +20,11 @@ module PS
 
     def request(method, params={})
       results = $api.request(method, camel_case_request(params))
-      Util.convert_to_ps_object(snake_case_response(results))
+      if results["PsObject"] then
+        Util.convert_to_ps_object(snake_case_response(results))
+      else
+        true
+      end
     end
 
     #Paysimple expects the attribute names to be in CamelCase, but that isn't 
