@@ -34,18 +34,18 @@ end
 
 def test_customer_camel
   {
-    :FirstName => "test",
-    :MiddleName => "e",
-    :LastName => "name",
-    :Email => "example@test.com",
-    :Phone => "0000000000",
-    :BillingAddress1 => "1600 Pennsylvania Ave NW",
-    :BillingCity => "Washington",
-    :BillingState => 8,
-    :BillingPostalCode => 20500,
-    :BillingCountryCode => "USA",
-    :ShippingSameAsBilling => 1,
-    :CompanyName => "USA"
+    "FirstName" => "test",
+    "MiddleName" => "e",
+    "LastName" => "name",
+    "Email" => "example@test.com",
+    "Phone" => "0000000000",
+    "BillingAddress1" => "1600 Pennsylvania Ave NW",
+    "BillingCity" => "Washington",
+    "BillingState" => 8,
+    "BillingPostalCode" => 20500,
+    "BillingCountryCode" => "USA",
+    "ShippingSameAsBilling" => 1,
+    "CompanyName" => "USA"
   }
 end
 
@@ -63,5 +63,35 @@ def test_customer
     :billing_country_code => "USA",
     :shipping_same_as_billing => 1,
     :company_name => "USA"
+  }
+end
+
+def test_response
+  {
+    "PsObject" => [
+      {
+        "TestAttr" => "value",
+        "AnotherTestAttr" => 1
+      },
+      {
+        "TestAttr" => "value",
+        "AnotherTestAttr" => 1
+      }
+    ]
+  }
+end
+
+def test_response_snake
+  {
+    "PsObject" => [
+      {
+        "test_attr" => "value",
+        "another_test_attr" => 1
+      },
+      {
+        "test_attr" => "value",
+        "another_test_attr" => 1
+      }
+    ]
   }
 end

@@ -32,18 +32,7 @@ module PS
     #work with the attributes in snake case. The method bellow converts from 
     #the ruby-esque snake case to PS' CamelCase.
     def camel_case_request(params)
-      camel_params = {}
-      params.each do |key, value|
-        if value.class == Hash then
-          camel_params[key] = {}
-          value.each do |attribute, value|
-            camel_params[key][attribute.to_s.split("_").collect { |x| x.capitalize }.join.to_sym] = value
-          end
-        else 
-          camel_params[key] = value
-        end
-      end
-      camel_params
+      params.each { |key, value| value.camel_case_keys if value.class == Hash }
     end
 
     #Paysimple returns the attribute names in CamelCase, but the attributes use
@@ -51,15 +40,9 @@ module PS
     #names into snake_case so that they can be more easily dynamically assigned
     #to the appropriate class.
     def snake_case_response(params)
-      snake_case = []
-      params.delete("PsObject").each do |object|
-        snake_case_object = {}
-        object.each do |attribute, value|
-          snake_case_object[attribute.scan(/[A-Z][a-z0-9]+/).collect { |x| x.downcase }.join("_")] = value
-        end
-        snake_case << snake_case_object
+      params["PsObject"] = params["PsObject"].map do |ps_object|
+        ps_object.snake_case_keys
       end
-      params["PsObject"] = snake_case
       params
     end
 
