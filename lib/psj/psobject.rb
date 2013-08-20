@@ -5,7 +5,7 @@ module PS
     def initialize(params = {})
       params.each do |k, v|
         next unless self.class.method_defined?(k)
-        send("#{k}=", v)
+        instance_variable_set("@#{k}", v)
       end
     end
 

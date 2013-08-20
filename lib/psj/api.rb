@@ -2,8 +2,7 @@ require 'httparty'
 require 'json'
 module PS
   module Api 
-    def connect(format)
-      format ||= "JSON"
+    def connect(format="JSON")
       begin
         require "psj/api/#{format.downcase}"
       rescue LoadError

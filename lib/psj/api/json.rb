@@ -8,7 +8,7 @@ module PS
         @apikey = nil
         @userkey = nil
         @company_name = nil
-        @env = "devlopment"
+        @env = "development"
       end
 
       #### Some Basic fields returned by Paysimple

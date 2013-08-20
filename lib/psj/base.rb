@@ -31,7 +31,7 @@ module PS
       def self.validate_and_assign(params)
         required_attributes().each do |key|
           if params.key?(key) then
-            $api.send(key.to_s+"=", params[key])
+            $api.instance_variable_set("@#{key.to_s}", params[key])
           else
             raise "Missing required attribute: #{key}"
           end
