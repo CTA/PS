@@ -12,29 +12,25 @@ module PS
       end
 
       def request(method, params={})
-        response = PS::Response.new(
+        PS::Response.new(
           self.class.post(request_url(method), options_hash(params)).parsed_response['d']
         )
-        #TODO: have better exception handling!!!!
-        format_response_dates(response)
-        response
       end
 
-      private
-        #do some conversion for the ASP.net json dates
-        def format_response_dates(response)
-          if response.ps_object then
-            response.ps_object.each_with_index do |ps_object, i|
-              ps_object.each do |key, value|
-                if value.instance_of?(String) && value.include?("Date") then
-                  response.ps_object[i][key] = parse_date(value)
-                end
+      #do some conversion for the ASP.net json dates
+      def format_response_dates(response)
+        if response.ps_object then
+          response.ps_object.each_with_index do |ps_object, i|
+            ps_object.each do |key, value|
+              if value.instance_of?(String) && value.include?("Date") then
+                response.ps_object[i][key] = parse_date(value)
               end
             end
           end
-          response
         end
-
+        response
+      end
+      private
         def format_request_dates(request)
           request.each do |key, value|
             if value.instance_of? Time then
