@@ -1,4 +1,4 @@
-Copyright (c) 2013 Kyle Carter
+Copyright (c) 2013 CTA
 
 MIT License
 

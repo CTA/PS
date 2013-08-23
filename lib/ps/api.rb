@@ -1,11 +1,9 @@
-require 'httparty'
-require 'json'
 module PS
   module Api 
     def connect(format)
       format ||= "JSON"
       begin
-        require "psj/api/#{format.downcase}"
+        require "ps/api/#{format.downcase}"
       rescue LoadError
         raise "#{format} is not a supported format"
       end
@@ -34,7 +32,7 @@ module PS
         "https://api.paysimple.com/3.00/paysimpleapi"
       end
     end
-    #
+    
     #Paysimple expects the attribute names to be in CamelCase, but that isn't 
     #very ruby-esque; so, in an effort to be more ruby-esque, we define and 
     #work with the attributes in snake case. The method bellow converts from 

@@ -1,8 +1,8 @@
 Gem::Specification.new do |s|
   s.name        = 'PS'
   s.version     = '0.0.0'
-  s.date        = '2013-07-27'
-  s.summary     = "Paysimple api integration"
+  s.date        = '2013-08-23'
+  s.summary     = "Multiformat paysimple api integration"
   s.description = ""
   s.author     = "Kyle Carter"
   s.email       = 'seijounai@gmail.com'
@@ -12,4 +12,5 @@ Gem::Specification.new do |s|
   s.test_files    = s.files.grep(%r{^(test|spec|features)/})
   s.require_paths = ["lib"]
   s.add_dependency('httparty')
+  s.add_dependency('json')
 end
