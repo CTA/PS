@@ -1,6 +1,7 @@
 require 'psj/util'
 require 'psj/util/string'
 require 'psj/util/hash'
+require 'psj/response'
 require 'psj/api'
 require 'psj/base'
 

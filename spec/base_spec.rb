@@ -33,7 +33,7 @@ describe "An instance of", PS::Base do
     subject { PS::Base.establish_connection({}) }
 
     it "should raise an exception" do
-      expect { subject }.to raise_error
+      expect { subject }.to raise_error(ArgumentError)
     end
   end
 end

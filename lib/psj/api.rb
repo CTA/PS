@@ -2,7 +2,8 @@ require 'httparty'
 require 'json'
 module PS
   module Api 
-    def connect(format="JSON")
+    def connect(format)
+      format ||= "JSON"
       begin
         require "psj/api/#{format.downcase}"
       rescue LoadError
@@ -18,9 +19,9 @@ module PS
     end
 
     def request(method, params={})
-      results = $api.request(method, camel_case_request(params))
-      if results["PsObject"] then
-        Util.convert_to_ps_object(snake_case_response(results))
+      ps_response = $api.request(method, camel_case_request(params))
+      if ps_response.ps_object then
+        Util.convert_to_ps_object(snake_case_response(ps_response))
       else
         true
       end
@@ -39,7 +40,7 @@ module PS
     #names into snake_case so that they can be more easily dynamically assigned
     #to the appropriate class.
     def snake_case_response(params)
-      params["PsObject"] = params["PsObject"].map do |ps_object|
+      params.ps_object = params.ps_object.map do |ps_object|
         ps_object.snake_case_keys
       end
       params

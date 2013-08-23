@@ -11,41 +11,23 @@ module PS
         @env = "development"
       end
 
-      #### Some Basic fields returned by Paysimple
-      # results = Api.post(#{request_details})
-      # results = {
-      ## 'd' => {
-      ### '__type' => '',
-      ### 'CurrentPage => Int,
-      ### 'ErrorMessage => '',
-      ### 'ErrorType' => Int,
-      ### 'IsSuccess' => boolean,
-      ### 'itemsPerPage' => Int,
-      ### 'PsObject' => {
-      #### ...
-      ### },
-      ### 'SubType' => '', <-- This tells us the subclass of PsObject
-      ### 'TotalItems' => Int
-      ## }
-      #}
       def request(method, params={})
-        results = self.class.post(request_url(method), options_hash(params))
-        #raise results.inspect
+        response = PS::Response.new(
+          self.class.post(request_url(method), options_hash(params)).parsed_response['d']
+        )
         #TODO: have better exception handling!!!!
-        unless results.parsed_response['d']['IsSuccess'] then 
-          raise results.parsed_response['d']['ErrorMessage'].inspect
-        end
-        format_response_dates(results.parsed_response['d'])
+        format_response_dates(response)
+        response
       end
 
       private
         #do some conversion for the ASP.net json dates
         def format_response_dates(response)
-          if response["PsObject"] then
-            response["PsObject"].each_with_index do |ps_object, i|
+          if response.ps_object then
+            response.ps_object.each_with_index do |ps_object, i|
               ps_object.each do |key, value|
                 if value.instance_of?(String) && value.include?("Date") then
-                  response["PsObject"][i][key] = parse_date(value)
+                  response.ps_object[i][key] = parse_date(value)
                 end
               end
             end

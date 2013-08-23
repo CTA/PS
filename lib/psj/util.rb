@@ -4,11 +4,11 @@ module PS
       types = {
         "PsCustomer" => PS::Customer
       }
-      klass = types[response['SubType']]
-      if response['PsObject'].length == 1 then
-        klass.construct_from(response['PsObject'][0])
-      elsif response['PsObject'].length > 1
-        response['PsObject'].map { |object| klass.construct_from(object) }
+      klass = types[response.sub_type]
+      if response.ps_object.length == 1 then
+        klass.construct_from(response.ps_object[0])
+      elsif response.ps_object.length > 1
+        response.ps_object.map { |object| klass.construct_from(object) }
       else
         response
       end

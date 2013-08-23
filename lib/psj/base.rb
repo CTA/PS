@@ -18,7 +18,7 @@ module PS
       validate_and_assign(params)
     end
 
-    def current_connection
+    def self.current_connection
       config = {
         :apikey => $api.apikey,
         :userkey => $api.userkey,
@@ -33,7 +33,7 @@ module PS
           if params.key?(key) then
             $api.instance_variable_set("@#{key.to_s}", params[key])
           else
-            raise "Missing required attribute: #{key}"
+            raise ArgumentError, "Missing required attribute: #{key}"
           end
         end
       end
