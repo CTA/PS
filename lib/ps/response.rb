@@ -2,6 +2,12 @@ module PS
   class Response < Base
     attr_accessor :is_success,:error_message,:sub_type,:ps_object,:total_items,:items_per_page,:current_page,:error_type
 
+    TYPES = {
+      "PsCustomer" => PS::Customer,
+      "PsCustomerAccount" => PS::CustomerAccount,
+      "PsPayment" => PS::Payment
+    }
+
     #### Some Basic fields returned by Paysimple
     # {
     ## 'd' => {
@@ -19,6 +25,7 @@ module PS
     ### 'TotalItems' => Int
     ## }
     # }
+
     def initialize(params={})
       params.each { |k,v| instance_variable_set("@#{k.snake_case}", v) }
       successful?
@@ -65,7 +72,7 @@ module PS
             @ps_object[i] = instantiate_object(sub_type[i % sub_type.length], object)
           end
         when Hash
-          klass = PS::SubType::TYPES[sub_type]
+          klass = TYPES[sub_type]
           klass.new(object) 
         end
       end
