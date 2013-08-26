@@ -19,17 +19,16 @@ module PS
 
       #do some conversion for the ASP.net json dates
       def format_response_dates(response)
-        if response.ps_object then
-          response.ps_object.each_with_index do |ps_object, i|
-            ps_object.each do |key, value|
-              if value.instance_of?(String) && value.include?("Date") then
-                response.ps_object[i][key] = parse_date(value)
-              end
+        response.ps_object.each_with_index do |ps_object, i|
+          ps_object.each do |key, value|
+            if value.instance_of?(String) && value.include?("Date") then
+              response.ps_object[i][key] = parse_date(value)
             end
           end
         end
         response
       end
+
       private
         def format_request_dates(request)
           request.each do |key, value|

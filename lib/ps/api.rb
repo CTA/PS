@@ -10,15 +10,34 @@ module PS
       $api = eval("PS::Api::#{format.downcase.capitalize}").new
     end
 
+    def validate_and_assign(params)
+      required_attributes().each do |key|
+        if params.key?(key) then
+          $api.instance_variable_set("@#{key.to_s}", params[key])
+        else
+          raise ArgumentError, "Missing required attribute: #{key}"
+        end
+      end
+    end
+
     def required_attributes
       $api.instance_variables.map do |instance_variable| 
         instance_variable.to_s[1..-1].to_sym
       end
     end
 
+    def connection_hash
+      {
+        :apikey => $api.apikey,
+        :userkey => $api.userkey,
+        :company_name => $api.company_name,
+        :host => host()
+      }
+    end
+
     def request(method, params={})
       ps_response = $api.request(method, camel_case_request(params))
-      ps_response.ps_object ? ps_response.ps_object : true
+      ps_response.ps_object || true
     end
 
     def env 

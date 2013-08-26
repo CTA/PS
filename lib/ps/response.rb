@@ -5,26 +5,25 @@ module PS
     #### Some Basic fields returned by Paysimple
     # {
     ## 'd' => {
-    ### '__type' => '',
+    ### '__type' => String,
     ### 'CurrentPage => Int,
-    ### 'ErrorMessage => '',
+    ### 'ErrorMessage => String
     ### 'ErrorType' => Int,
     ### 'IsSuccess' => boolean,
     ### 'itemsPerPage' => Int,
     ### 'PsObject' => {
     #### ...
     ### },
-    ### 'SubType' => '', <-- This tells us the subclass of PsObject
+    ### 'SubType' => String, <-- This tells us the subclass of PsObject
     ### 'TotalItems' => Int
     ## }
     # }
     def initialize(params={})
-      params.each do |k,v|
-        instance_variable_set("@#{k.snake_case}", v)
-      end
+      params.each { |k,v| instance_variable_set("@#{k.snake_case}", v) }
       successful?
-      $api.format_response_dates(self) #ask the format class how to format dates
-      @ps_object &&= Util.convert_to_ps_object(snake_case_response(@ps_object)) 
+      format_response_dates() if @ps_object
+      snake_case_response()
+      @ps_object &&= Util.convert_to_ps_object(self) 
       self
     end
 
@@ -36,9 +35,15 @@ module PS
     #snake_case within the code base. The method bellow converts the attribute 
     #names into snake_case so that they can be more easily dynamically assigned
     #to the appropriate class.
-    def snake_case_response(params)
-      params.ps_object.map do |ps_object|
-        ps_object.snake_case_keys
+    def snake_case_response
+      @ps_object &&= @ps_object.map { |ps_object| ps_object.snake_case_keys }
+    end
+
+    def format_response_dates
+      if $api.class.method_defined?(:format_response_dates) then
+        $api.format_response_dates(self) #ask the format class how to format dates
+      else 
+        true
       end
     end
   end
