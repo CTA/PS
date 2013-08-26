@@ -59,5 +59,13 @@ module PS
     def camel_case_request(params)
       params.each { |key, value| value.camel_case_keys if value.class == Hash }
     end
+
+    def date?(object)
+      $api.date?(object)
+    end
+    
+    def parse_date(date)
+      $api.parse_date(date)
+    end
   end
 end

@@ -17,17 +17,14 @@ module PS
         )
       end
 
-      #do some conversion for the ASP.net json dates
-      def format_response_dates(response)
-        response.ps_object.each_with_index do |ps_object, i|
-          ps_object.each do |key, value|
-            if value.instance_of?(String) && value.include?("Date") then
-              response.ps_object[i][key] = parse_date(value)
-            end
-          end
-        end
-        response
+      def date?(object)
+        object.instance_of?(String) && object.include?("Date")
       end
+
+      #do some conversion for the ASP.net json dates
+      def parse_date(str)             
+        Time.at(str[/([0-9]+)-([0-9]+)/,1].to_i/1000)
+      end                                            
 
       private
         def format_request_dates(request)
@@ -43,9 +40,6 @@ module PS
           "/Date(#{(date.to_i*1000)}-0700)/"     
         end                                            
 
-        def parse_date(str)             
-          Time.at(str[/([0-9]+)-([0-9]+)/,1].to_i/1000)
-        end                                            
 
         def options_hash(post_data)
           post_data[:apikey] = @apikey
@@ -58,7 +52,7 @@ module PS
         end
 
         def request_url(method)
-          "#{Base.host}/#{name()}/#{method}"
+          "#{Base.host()}/#{name()}/#{method}"
         end
 
         def name 
@@ -73,7 +67,6 @@ module PS
             'Content-Length'=> content_length
           }
         end
-
     end
   end
 end

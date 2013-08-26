@@ -6,9 +6,9 @@ require 'json'
 require 'ps/util'
 require 'ps/util/string'
 require 'ps/util/hash'
-require 'ps/response'
 require 'ps/api'
 require 'ps/base'
+require 'ps/response'
 
 #ps objects
 require 'ps/psobject'
