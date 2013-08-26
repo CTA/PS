@@ -11,9 +11,10 @@ module PS
     ### 'ErrorType' => Int,
     ### 'IsSuccess' => boolean,
     ### 'itemsPerPage' => Int,
-    ### 'PsObject' => {
+    ### 'PsObject' => [
+    #### { ... },
     #### ...
-    ### },
+    ### ],
     ### 'SubType' => String, <-- This tells us the subclass of PsObject
     ### 'TotalItems' => Int
     ## }
