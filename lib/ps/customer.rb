@@ -15,7 +15,7 @@ module PS
     end
 
     class << self
-      #returns [ PS::Customer, PS::CustomerAccont, Ps::Payment ]
+      #returns [ PS::Customer, PS::CustomerAccount, Ps::Payment ]
       def create_and_make_payment(customer={}, account={}, amount=0.0, cid="")
         request("addcustomerandmakeccpayment", {
           :customer => customer, 

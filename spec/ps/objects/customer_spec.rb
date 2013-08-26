@@ -12,6 +12,25 @@ describe "An instance of", PS::Customer do
     end
   end
 
+  describe "#create_and_make_payment" do
+
+    subject do
+      PS::Customer.create_and_make_payment(
+        test_customer(),
+        test_customer_account(),
+        amount=1.00,
+        "999"
+      ) 
+    end
+
+    it "should create a customer, customerAccount, and Payment" do
+      response = subject
+      response[0].class.should == PS::Customer
+      response[1].class.should == PS::CustomerAccount
+      response[2].class.should == PS::Payment
+    end
+  end
+
   describe "list methods" do
     subject { PS::Customer }
 

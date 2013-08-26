@@ -32,8 +32,11 @@ module PS
 
       def prepare_ps_object
         prepare_dates()
-        snake_case_response()
-        @ps_object = Util.convert_to_ps_object(self) 
+        if @ps_object.length == 1 then
+          @ps_object = instantiate_object(@sub_type, snake_case_response()[0])
+        else
+          instantiate_object(@sub_type.split(","), snake_case_response())
+        end
       end
       
       #Paysimple returns the attribute names in CamelCase, but the attributes use
@@ -41,7 +44,7 @@ module PS
       #names into snake_case so that they can be more easily dynamically assigned
       #to the appropriate class.
       def snake_case_response
-        @ps_object = @ps_object.map { |ps_object| ps_object.snake_case_keys }
+        @ps_object.map { |ps_object| ps_object.snake_case_keys }
       end
 
       def prepare_dates
@@ -51,6 +54,18 @@ module PS
               @ps_object[i][key] = parse_date(value)
             end
           end
+        end
+      end
+
+      def instantiate_object(sub_type, object)
+        case object
+        when Array
+          object.each_with_index do |object, i|
+            @ps_object[i] = instantiate_object(sub_type[i % sub_type.length], object)
+          end
+        when Hash
+          klass = PS::SubType::TYPES[sub_type]
+          klass.new(object) 
         end
       end
   end
