@@ -10,14 +10,16 @@ module PS
       request("addrecurringpayment", { :recurring_payment => attributes } )
 		end
 
+		def edit
+			request("modifyrecurringpayment", { :payment_schedule => attributes } )
+		end
+
 		def suspend
-			#TODO need to get schedule_id
-			request("suspendrecurringpaymentschedule"), { :schedule_id => schedule_id }
+			request("suspendrecurringpaymentschedule", { :schedule_id => self.ps_reference_id } )
 		end
 
 		def resume
-			#TODO need to get schedule_id
-			request("resumerecurringpaymentschedule"), { :schedule_id => schedule_id }
+			request("resumerecurringpaymentschedule", { :schedule_id => self.ps_reference_id } )
     end
 
 	  def destroy
@@ -25,7 +27,7 @@ module PS
 		end	
 
 		def self.list(start_date, end_date, customer_id, filter, criteria)
-			request("listrecurringpayments", { :start_date => start_date, :end_date => end_date :customer_id => customer_id, :ps_recurring_payment_filter => filter, :ps_paged_criteria => criteria)}
+			request("listrecurringpayments", { :start_date => start_date, :end_date => end_date, :customer_id => customer_id, :ps_recurring_payment_filter => filter, :ps_paged_criteria => criteria } )
 		end
 
 	end
