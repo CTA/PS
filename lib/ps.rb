@@ -6,10 +6,10 @@ require 'json'
 require 'ps/util'
 require 'ps/util/string'
 require 'ps/util/hash'
+require 'ps/util/state'
 require 'ps/exceptions'
 require 'ps/api'
 require 'ps/base'
-require 'ps/response'
 
 #ps objects
 require 'ps/psobject'
@@ -18,8 +18,11 @@ require 'ps/customer_account'
 require 'ps/credit_card_account'
 require 'ps/payment'
 
+
+require 'ps/response'
+
 #enumerables
-require 'ps/sub_type'
+require 'ps/enumerations'
 
 module PS
 end

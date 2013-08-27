@@ -5,13 +5,14 @@ module PS
     #hmm...
     extend Api
     include Api
+    extend State
+
     ## params.keys -> [
     # :host,
     # :apikey
     # :userkey
     # :company_name
     ##]
-
     def self.establish_connection(params={})
       connect(params.delete(:format))
       params[:env] ||= "development"

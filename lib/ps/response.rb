@@ -2,7 +2,7 @@ module PS
   class Response < Base
     attr_accessor :is_success,:error_message,:sub_type,:ps_object,:total_items,:items_per_page,:current_page,:error_type
 
-    TYPES = {
+    SUBTYPES = {
       "PsCustomer" => PS::Customer,
       "PsCustomerAccount" => PS::CustomerAccount,
       "PsPayment" => PS::Payment
@@ -72,7 +72,7 @@ module PS
             @ps_object[i] = instantiate_object(sub_type[i % sub_type.length], object)
           end
         when Hash
-          klass = TYPES[sub_type]
+          klass = SUBTYPES[sub_type]
           klass.new(object) 
         end
       end

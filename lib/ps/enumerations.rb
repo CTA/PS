@@ -189,4 +189,3 @@ class States
   IA = 13
   HI = 12
 end
-
