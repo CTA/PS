@@ -5,7 +5,7 @@ module PS
       begin
         require "ps/api/#{format.downcase}"
       rescue LoadError
-        raise "#{format} is not a supported format"
+        raise ConnectionError, "#{format} is not a supported format"
       end
       $api = eval("PS::Api::#{format.downcase.capitalize}").new
     end

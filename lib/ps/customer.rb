@@ -7,11 +7,28 @@ module PS
     end
 
     def destroy
-      request("deletecustomer", { :id => self.ps_reference_id } )
+      if self.ps_reference_id then
+        request("deletecustomer", { :id => self.ps_reference_id } ) 
+      else
+        false
+      end
     end
 
     def credit_card_account
       CreditCardAccount.find(self.ps_reference_id)
+    end
+
+    def set_default_customer_account(account_id)
+      request("SetDefaultCustomerAccount", 
+        { 
+          :customerId => self.ps_reference_id, 
+          :customerAccountId => account_id
+        }
+      )
+    end
+
+    def default_customer_account
+      request("GetDefaultCustomerAccount", { :customerId => self.ps_reference_id })
     end
 
     class << self
@@ -25,13 +42,16 @@ module PS
         })
       end
 
+      def get_customer_and_default_accounts(customer_id)
+        request("GetCustomerAndDefaultAccounts", { :customerid => customer_id })
+      end
+
       def find(id)
         request("getcustomer", { :id => id })
       end
 
       def create(options={})
-        customer = new(options)
-        customer.save
+        new(options).save
       end
 
       def destroy(customer_id)

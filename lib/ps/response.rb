@@ -2,22 +2,27 @@ module PS
   class Response < Base
     attr_accessor :is_success,:error_message,:sub_type,:ps_object,:total_items,:items_per_page,:current_page,:error_type
 
+    CLASS = {
+      "PsCustomer" => PS::Customer,
+      "PsCustomerAccount" => PS::CustomerAccount,
+      "PsPayment" => PS::Payment,
+      "PsDefaultCustomerAccount" => PS::CustomerAccount
+    }
+
     #### Some Basic fields returned by Paysimple
     # {
-    ## 'd' => {
-    ### '__type' => String,
-    ### 'CurrentPage => Int,
-    ### 'ErrorMessage => String
-    ### 'ErrorType' => Int,
-    ### 'IsSuccess' => boolean,
-    ### 'itemsPerPage' => Int,
-    ### 'PsObject' => [
-    #### { ... },
-    #### ...
-    ### ],
-    ### 'SubType' => String, <-- This tells us the subclass of PsObject
-    ### 'TotalItems' => Int
-    ## }
+    ## '__type' => String,
+    ## 'CurrentPage => Int,
+    ## 'ErrorMessage => String
+    ## 'ErrorType' => Int,
+    ## 'IsSuccess' => boolean,
+    ## 'itemsPerPage' => Int,
+    ## 'PsObject' => [
+    ### { ... },
+    ### ...
+    ## ],
+    ## 'SubType' => String, <-- This tells us the subclass of PsObject
+    ## 'TotalItems' => Int
     # }
     def initialize(params={})
       params.each { |k,v| instance_variable_set("@#{k.snake_case}", v) }
@@ -32,7 +37,7 @@ module PS
       end
 
       def prepare_ps_object
-        prepare_dates()
+        prepare_object_dates()
         if @ps_object.length == 1 then
           @ps_object = instantiate_object(@sub_type, snake_case_response()[0])
         else
@@ -48,7 +53,7 @@ module PS
         @ps_object.map { |ps_object| ps_object.snake_case_keys }
       end
 
-      def prepare_dates
+      def prepare_object_dates
         @ps_object.each_with_index do |object, i|
           object.each do |key, value|
             if date?(value) then
@@ -65,8 +70,7 @@ module PS
             @ps_object[i] = instantiate_object(sub_type[i % sub_type.length], object)
           end
         when Hash
-          klass = PS::SubType::TYPES[sub_type]
-          klass.new(object) 
+          CLASS[sub_type].new(object)
         end
       end
   end
