@@ -19,19 +19,19 @@ module PS
     end
 
     def set_default_customer_account(account_id)
-      request("SetDefaultCustomerAccount", 
-        { 
-          :customerId => self.ps_reference_id, 
-          :customerAccountId => account_id
-        }
-      )
+      CustomerAccount.find(account_id).make_default
     end
 
     def default_customer_account
-      request("GetDefaultCustomerAccount", { :customerId => self.ps_reference_id })
+      CustomerAccount.default(self.ps_reference_id)
+    end
+
+    def default_credit_card_account
+      CreditCardAccount.default_for_customer_id(self.ps_reference_id)
     end
 
     class << self
+      #TODO: Account param should be a PS::CreditCardAccount, ensure this
       #returns [ PS::Customer, PS::CustomerAccount, Ps::Payment ]
       def create_and_make_payment(customer={}, account={}, amount=0.0, cid="")
         request("addcustomerandmakeccpayment", {

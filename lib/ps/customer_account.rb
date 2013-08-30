@@ -19,7 +19,6 @@ module PS
       def default(customer_id)
         request("GetDefaultCustomerAccount", { :customerId => customer_id })
       end
-
     end
   end
 end
