@@ -24,6 +24,7 @@ module PS
     ## 'SubType' => String, <-- This tells us the subclass of PsObject
     ## 'TotalItems' => Int
     # }
+
     def initialize(params={})
       params.each { |k,v| instance_variable_set("@#{k.snake_case}", v) }
       successful?
