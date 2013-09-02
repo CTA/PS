@@ -5,7 +5,6 @@ module PS
     #hmm...
     extend Api
     include Api
-    extend State
 
     ## params.keys -> [
     # :host,
