@@ -6,6 +6,7 @@ module PS
       "PsCustomer" => PS::Customer,
       "PsCustomerAccount" => PS::CustomerAccount,
       "PsPayment" => PS::Payment
+      #"PsRecurringPayment" => PS::RecurringPayment
     }
 
     #### Some Basic fields returned by Paysimple

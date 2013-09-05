@@ -65,7 +65,7 @@ describe "An instance of", PS::Customer do
       subject { PS::Customer.new(test_customer()) }
 
       it "should return false" do
-        subject.destroy.should == false
+        lambda { subject.destroy }.should raise_error
       end
     end
   end

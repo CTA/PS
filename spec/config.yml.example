@@ -1,0 +1,13 @@
+---
+:development:
+  :apikey: ""
+  :userkey: ""
+  :env: "development"
+  :format: "json"
+  :company_name: ""
+:production:
+  :apikey: ""
+  :userkey: ""
+  :company_name: ""
+  :env: "production"
+  :format: "json"
