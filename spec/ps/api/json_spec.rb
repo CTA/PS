@@ -1,5 +1,5 @@
 require 'spec_helper'
-require File.dirname(__FILE__)+"/../../lib/psj/api/json"
+require File.dirname(__FILE__)+"/../../lib/ps/api/json"
 describe "An instance of", PS::Api::Json do
   describe "#request" do
     let(:config) { formatted_connection_config("JSON", :production) }

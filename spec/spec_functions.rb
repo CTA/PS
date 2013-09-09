@@ -12,13 +12,13 @@
 #  :format: "json"
 #  :company_name: ""
 def formatted_connection_config(format, env=:development)
-  config = YAML.load_file(File.dirname(__FILE__)+"/../spec_config/config.yml")[env]
+  config = YAML.load_file(File.dirname(__FILE__)+"/config.yml")[env]
   config[:format] = format
   config
 end
 
 def formatless_connection_config(env=:development)
-  YAML.load_file(File.dirname(__FILE__)+"/../spec_config/config.yml")[env]
+  YAML.load_file(File.dirname(__FILE__)+"/config.yml")[env]
 end
 
 def connect
