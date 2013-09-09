@@ -29,7 +29,7 @@ module PS
 
     def initialize(params={})
       params.each { |k,v| instance_variable_set("@#{k.snake_case}", v) }
-      successful?
+      successful?()
       prepare_ps_object() if @ps_object
       self
     end

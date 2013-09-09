@@ -17,6 +17,7 @@ require 'ps/customer'
 require 'ps/customer_account'
 require 'ps/credit_card_account'
 require 'ps/payment'
+require 'ps/recurring_payment'
 require 'ps/user'
 
 
