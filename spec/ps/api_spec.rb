@@ -17,8 +17,19 @@ describe "An instance of", PS::Api do
     end
 
     it "should make an api request" do
-      PS::Api::Json.any_instance.should_receive(:request) 
+      PS::Response.stub(:ps_object) { false }
+      PS::Api::Json.any_instance.should_receive(:request) { PS::Response }
       subject.request("getstates")
+    end
+  end
+
+  context "Given an unsupported format" do
+    subject { DummyClass }
+
+    it "should raise a connection error" do
+      expect {
+        subject.connect("invalid_format")
+      }.to raise_error(PS::ConnectionError, "invalid_format is not a supported format")
     end
   end
 
@@ -37,5 +48,4 @@ describe "An instance of", PS::Api do
       subject.should == "https://api.paysimple.com/3.00/paysimpleapi"
     end
   end
-
 end

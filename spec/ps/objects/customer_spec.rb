@@ -15,7 +15,6 @@ describe "An instance of", PS::Customer do
   end
 
   describe "#create_and_make_payment" do
-
     subject do
       PS::Customer.create_and_make_payment(
         FactoryGirl.attributes_for(:customer),
@@ -30,6 +29,23 @@ describe "An instance of", PS::Customer do
       response[0].class.should == PS::Customer
       response[1].class.should == PS::CustomerAccount
       response[2].class.should == PS::Payment
+    end
+  end
+
+  describe "get_customer_ande_default_accounts" do
+    let(:customer_id) { PS::Customer.create(test_customer()).attributes[:ps_reference_id] }
+
+    before do
+      #TODO: create AchAccount and CreditCardAccount for customer_id
+    end
+
+    subject { PS::Customer.get_customer_and_default_accounts(customer_id) }
+
+    it "should get the customer and return customerAccount subclasses" do
+      response = subject
+      response[0].class.should == PS::Customer
+      response[1].class.should == PS::CreditCardAccount
+      response[2].class.should == PS::AchAccount
     end
   end
 

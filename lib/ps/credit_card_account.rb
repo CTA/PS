@@ -18,8 +18,8 @@ module PS
       request("deletecustomercreditcardaccount", { :accountid => self.customer_id })
     end
 
-    def self.find(customer_id)
-      request("getdefaultcreditcardaccount", { :customerid => customer_id })
+    def self.default_for_customer_id(customer_id)
+      request("getdefaultcreditcardaccount", { :customerid => self.customer_id })
     end
   end
 end
