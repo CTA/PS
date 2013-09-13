@@ -28,24 +28,29 @@ module PS
     def initialize(params={})
       params.each { |k,v| instance_variable_set("@#{k.snake_case}", v) }
       successful?
-      prepare_ps_object() if @ps_object
       self
     end
+
+    def prepare_ps_object
+      prepare_object_dates()
+      if @total_items == 1 then
+        @ps_object = instantiate_object(@sub_type, snake_case_response()[0])
+      else
+        instantiate_object(@sub_type.split(","), snake_case_response())
+      end
+      return @ps_object
+    end
+
+    def raw_response
+      snake_case_response()[0] || {}
+    end
+
 
     private 
       def successful?
         raise RequestError, @error_message unless @is_success == true
       end
 
-      def prepare_ps_object
-        prepare_object_dates()
-        if @ps_object.length == 1 then
-          @ps_object = instantiate_object(@sub_type, snake_case_response()[0])
-        else
-          instantiate_object(@sub_type.split(","), snake_case_response())
-        end
-      end
-      
       #Paysimple returns the attribute names in CamelCase, but the attributes use
       #snake_case within the code base. The method bellow converts the attribute 
       #names into snake_case so that they can be more easily dynamically assigned

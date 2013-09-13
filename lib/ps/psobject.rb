@@ -3,17 +3,7 @@ module PS
     attr_accessor :ps_reference_id
 
     def initialize(params = {})
-      params.each do |k, v|
-        next unless self.class.method_defined?(k)
-        instance_variable_set("@#{k}", v)
-      end
-    end
-
-    def self.construct_from(ps_object)
-      self.new(ps_object)
-    end
-
-    def inspect
+      set_attributes(params)
     end
 
     def attributes
@@ -22,6 +12,13 @@ module PS
         attributes_hash[v[1..-1].to_sym] = self.send(v[1..-1])
       end
       attributes_hash
+    end
+
+    def set_attributes(params={})
+      params.each do |k, v|
+        next unless self.class.method_defined?(k)
+        instance_variable_set("@#{k}", v)
+      end
     end
   end
 end

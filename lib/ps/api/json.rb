@@ -2,7 +2,7 @@ module PS
   module Api
     class Json 
       include HTTParty
-      attr_accessor :apikey, :userkey, :company_name, :env
+      attr_reader :apikey, :userkey, :company_name, :env
 
       def initialize 
         @apikey = nil
@@ -12,9 +12,10 @@ module PS
       end
 
       def request(method, params={})
-        PS::Response.new(
           self.class.post(request_url(method), options_hash(params)).parsed_response['d']
-        )
+      end
+
+      def tell(method, params={})
       end
 
       def date?(object)

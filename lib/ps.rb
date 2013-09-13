@@ -3,7 +3,7 @@ require 'httparty'
 require 'json'
 
 #core classes
-require 'ps/util'
+require 'ps/util.rb'
 require 'ps/util/string'
 require 'ps/util/hash'
 require 'ps/util/state'
