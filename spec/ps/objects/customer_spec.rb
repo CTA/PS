@@ -1,5 +1,4 @@
 require 'spec_helper'
-require 'factory_girl'
 
 describe "An instance of", PS::Customer do
   before { connect() }
@@ -8,7 +7,6 @@ describe "An instance of", PS::Customer do
     subject { PS::Customer }
 
     it "should create a new customer" do
-      #new_customer = subject.create(test_customer())
       new_customer = FactoryGirl.build(:customer)
       new_customer.class.should == subject
     end
@@ -18,7 +16,7 @@ describe "An instance of", PS::Customer do
     subject do
       PS::Customer.create_and_make_payment(
         FactoryGirl.attributes_for(:customer),
-        test_credit_card_account(),
+        FactoryGirl.attributes_for(:credit_card_account),
         amount=1.00,
         "999"
       ) 
@@ -32,11 +30,18 @@ describe "An instance of", PS::Customer do
     end
   end
 
-  describe "get_customer_ande_default_accounts" do
-    let(:customer_id) { PS::Customer.create(test_customer()).attributes[:ps_reference_id] }
+  describe "get_customer_and_default_accounts" do
+    let(:customer_id) { PS::Customer.create(FactoryGirl.attributes_for(:customer)).ps_reference_id }
 
     before do
+      #FIXME
       #TODO: create AchAccount and CreditCardAccount for customer_id
+      #TODO: make reference instances with factories
+      customer_account = PS::CustomerAccount.new({:customer_id => customer_id}) #need ps reference id
+      ach_account = PS::AchAccount.new({:customer_id => customer_id, :is_checking_account => true, :routing_number => "000000000", :account_number => "4111111111111112", :bank_name => "Winnings Securities"})
+      credit_card_account = PS::CreditCardAccount.new({:customer_id => customer_id, :account_number => "4111111111111111", :c_c_expiry => "12/#{Time.now.strftime("%Y")}", :c_c_ctype => 1})
+      puts credit_card_account.attributes
+      credit_card_account.make_default
     end
 
     subject { PS::Customer.get_customer_and_default_accounts(customer_id) }
@@ -81,10 +86,10 @@ describe "An instance of", PS::Customer do
     end
 
     context "given a customer object that doesn't exist" do
-      subject { FactoryGirl.build(:customer) }
+      subject { FactoryGirl.build(:customer).destroy }
 
       it "should return false" do
-        lambda { subject.destroy }.should raise_error
+        subject.should eq(false) 
       end
     end
   end

@@ -5,6 +5,8 @@ module PS
     CLASS = {
       "PsCustomer" => PS::Customer,
       "PsCustomerAccount" => PS::CustomerAccount,
+      "PsCreditCardAccount" => PS::CreditCardAccount,
+      "PsAchAccount" => PS::AchAccount,
       "PsPayment" => PS::Payment,
       "PsDefaultCustomerAccount" => PS::CustomerAccount
     }
@@ -71,7 +73,8 @@ module PS
             @ps_object[i] = instantiate_object(sub_type[i % sub_type.length], object)
           end
         when Hash
-          CLASS[sub_type].new(object)
+          puts object["ps_reference_id"]
+          CLASS[sub_type].new(object.symbolize_keys)
         end
       end
   end
