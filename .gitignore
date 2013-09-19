@@ -1,3 +1,5 @@
 ./spec/config.yml
+spec/concept_testing.rb
+spec/config.yml
 *.swp
 *.swo

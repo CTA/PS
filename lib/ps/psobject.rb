@@ -20,5 +20,17 @@ module PS
         instance_variable_set("@#{k}", v)
       end
     end
+
+    def update_self
+      Proc.new { |response| 
+        set_attributes(response.raw_response())
+      }
+    end
+
+    def instantiate_self
+      Proc.new { |response|
+        response.prepare_ps_object()
+      }
+    end
   end
 end

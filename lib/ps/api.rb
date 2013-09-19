@@ -35,19 +35,9 @@ module PS
       }
     end
 
-    def request(method, params={})
-      Response.new($api.request(method, camel_case_request(params)))
-    end
-
-    def request_and_instantiate(method, params={})
-      response = request(method, params)
-      response.prepare_ps_object || false
-    end
-
-    def request_and_update_self(method, params={}, obj=NullPsObject)
-      response = request(method, params)
-      obj.update_attributes(response.raw_response)
-      true
+    def request(method, params={}, &block)
+      response = Response.new($api.request(method, camel_case_request(params)))
+      block.call(response) if block
     end
 
     def env 

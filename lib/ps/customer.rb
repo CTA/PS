@@ -1,12 +1,18 @@
 module PS
   class Customer < PsObject
-    attr_accessor :first_name,:middle_name,:last_name,:email,:alt_email,:phone,:alt_phone,:fax,:web_site,:billing_address1,:billing_address2,:billing_city,:billing_state,:billing_postal_code,:billing_country_code,:shipping_same_as_billing,:shipping_address1,:shipping_address2,:shipping_city,:shipping_state,:shipping_postal_code,:shipping_country_code,:Company_name,:notes,:last_modified,:created_on
+    attr_accessor :first_name,:middle_name,:last_name,:email,:alt_email,:phone,:alt_phone,:fax,:web_site,:billing_address1,:billing_address2,:billing_city,:billing_state,:billing_postal_code,:billing_country_code,:shipping_same_as_billing,:shipping_address1,:shipping_address2,:shipping_city,:shipping_state,:shipping_postal_code,:shipping_country_code,:company_name,:notes,:last_modified,:created_on
 
     def save
+      begin
+        save!()
+        true
+      rescue
+        false
+      end
     end
 
     def save!
-      request_and_update_self("addcustomer", { :customer => attributes }, self)
+      request("addcustomer", { :customer => attributes }) update_self()
     end
 
     def destroy
@@ -38,12 +44,12 @@ module PS
       #TODO: Account param should be a PS::CreditCardAccount, ensure this
       #returns [ PS::Customer, PS::CustomerAccount, Ps::Payment ]
       def create_and_make_payment(customer={}, account={}, amount=0.0, cid="")
-        request_and_instantiate("addcustomerandmakeccpayment", {
+        request("addcustomerandmakeccpayment", {
           :customer => customer, 
           :customerAccount => account, 
           :amount => amount, 
           :cid => cid
-        })
+        }) instantiate_self()
       end
 
       def get_customer_and_default_accounts(customer_id)
@@ -51,11 +57,11 @@ module PS
       end
 
       def find(id)
-        request_and_instantiate("getcustomer", { :id => id })
+        request("getcustomer", { :id => id }) instantiate_self()
       end
 
       def create(options={})
-        request_and_instantiate("addcustomer", { :customer => options })
+        request("addcustomer", { :customer => options }) 
       end
 
       def destroy(customer_id)

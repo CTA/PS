@@ -5,6 +5,8 @@ module PS
     CLASS = {
       "PsCustomer" => PS::Customer,
       "PsCustomerAccount" => PS::CustomerAccount,
+      "PsCreditCardAccount" => PS::CreditCardAccount,
+      "PsAchAccount" => PS::AchAccount,
       "PsPayment" => PS::Payment,
       "PsDefaultCustomerAccount" => PS::CustomerAccount
     }
@@ -31,6 +33,14 @@ module PS
       self
     end
 
+    def raw_response
+      if @total_items == 1 then
+        snake_case_response()[0] || {}
+      else
+        snake_case_response() || {}
+      end
+    end
+
     def prepare_ps_object
       prepare_object_dates()
       if @total_items == 1 then
@@ -40,11 +50,6 @@ module PS
       end
       return @ps_object
     end
-
-    def raw_response
-      snake_case_response()[0] || {}
-    end
-
 
     private 
       def successful?
@@ -76,7 +81,8 @@ module PS
             @ps_object[i] = instantiate_object(sub_type[i % sub_type.length], object)
           end
         when Hash
-          CLASS[sub_type].new(object)
+          puts object["ps_reference_id"]
+          CLASS[sub_type].new(object.symbolize_keys)
         end
       end
   end
