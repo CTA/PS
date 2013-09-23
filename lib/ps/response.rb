@@ -1,6 +1,6 @@
 module PS 
   class Response < Base
-    attr_accessor :is_success,:error_message,:sub_type,:ps_object,:total_items,:items_per_page,:current_page,:error_type
+    attr_accessor :is_success,:error_message,:sub_type,:ps_object,:total_items,:items_per_page,:current_page,:error_type,:exception_detail
 
     CLASS = {
       "PsCustomer" => PS::Customer,
@@ -53,7 +53,8 @@ module PS
 
     private 
       def successful?
-        raise RequestError, @error_message unless @is_success == true
+        raise RequestError, @exception_detail["InnerException"]["Message"] if @exception_detail
+        raise RequestError, @error_message.join(";") unless @is_success == true
       end
 
       #Paysimple returns the attribute names in CamelCase, but the attributes use

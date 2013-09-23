@@ -12,7 +12,8 @@ module PS
       end
 
       def request(method, params={})
-        self.class.post(request_url(method), options_hash(params)).parsed_response['d']
+        post_response = self.class.post(request_url(method), options_hash(params)).parsed_response
+        post_response['d'] || post_response
       end
 
       def date?(object)
@@ -59,10 +60,10 @@ module PS
         
         def header(content_length)
           {
-            'Content-Type'=>"application/json;charset=utf-8",
-            'Accept'=>"application/json",
-            'User-Agent'=> @company_name,
-            'Content-Length'=> content_length
+            'Content-Type' => "application/json;charset=utf-8",
+            'Accept' => "application/json",
+            'User-Agent' => @company_name,
+            'Content-Length' => content_length
           }
         end
     end

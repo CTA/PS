@@ -67,7 +67,7 @@ module PS
 
       def create(options={})
         customer = self.new(options)
-        customer.save!()
+        customer.save!
         return customer
       end
     end
