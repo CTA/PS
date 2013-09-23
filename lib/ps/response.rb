@@ -34,7 +34,7 @@ module PS
     end
 
     def raw_response
-      if @total_items == 1 then
+      if @ps_object.length == 1 then
         snake_case_response()[0] || {}
       else
         snake_case_response() || {}
@@ -43,8 +43,8 @@ module PS
 
     def prepare_ps_object
       prepare_object_dates()
-      if @total_items == 1 then
-        @ps_object = instantiate_object(@sub_type, snake_case_response()[0])
+      if @ps_object.length == 1 then
+        @ps_object = instantiate_object(@sub_type, snake_case_response().first)
       else
         instantiate_object(@sub_type.split(","), snake_case_response())
       end
@@ -81,7 +81,6 @@ module PS
             @ps_object[i] = instantiate_object(sub_type[i % sub_type.length], object)
           end
         when Hash
-          puts object["ps_reference_id"]
           CLASS[sub_type].new(object.symbolize_keys)
         end
       end

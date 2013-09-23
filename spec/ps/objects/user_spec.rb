@@ -4,7 +4,7 @@ describe "An instance of", PS::User do
   before { connect() }
 
   describe "#get" do
-    puts PS::User.get()
+#    puts PS::User.get()
   end
 
 end

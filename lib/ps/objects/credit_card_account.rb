@@ -3,11 +3,13 @@ module PS
     attr_accessor :c_c_expiry, :c_c_type, :account_number
 
     def self.create(params={})
-      self.new(params).save
+      cc = self.new(params)
+      cc.save()
+      return cc
     end
 
     def save
-      request("addcustomercreditcardaccount", { :customerAccount => attributes })
+      request("addcustomercreditcardaccount", { :customerAccount => attributes }, &update_self)
     end
 
     def update

@@ -48,4 +48,7 @@ describe "An instance of", PS::Api do
       subject.should == "https://api.paysimple.com/3.00/paysimpleapi"
     end
   end
+
+  describe "" do
+  end
 end

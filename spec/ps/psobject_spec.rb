@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-class DummyClass < PS::PsObject
+class PS::DummyClass < PS::Object
   attr_accessor :first_name, :last_name
 
   def initialize(params)
@@ -9,11 +9,11 @@ class DummyClass < PS::PsObject
   end
 end
 
-describe "An instance of", PS::PsObject do
+describe "An instance of", PS::Object do
   describe "#attributes" do
     let(:attributes_hash) { { :first_name => "test", :last_name => "test" } }
 
-    subject { DummyClass.new(attributes_hash) }
+    subject { PS::DummyClass.new(attributes_hash) }
 
     it { subject.should respond_to(:request) }
 
@@ -23,12 +23,28 @@ describe "An instance of", PS::PsObject do
   end
 
   describe "#new" do
-    subject { PS::Customer.new(test_customer()) }
+    let(:customer) { FactoryGirl.attributes_for(:customer) }
+    subject { PS::Customer.new(customer) }
 
     it "should assign attributes for the appropriate class" do 
       subject.instance_variables.each do |v|
-        subject.send(v.to_s[1..-1]).should == test_customer[v.to_s[1..-1].to_sym]
+        subject.send(v.to_s[1..-1]).should eq(customer[v.to_s[1..-1].to_sym])
       end
+    end
+  end
+
+  describe "response blocks" do
+    subject { PS::Object.new }
+
+    it "should set attributes for the psobject returen by a request" do
+      PS::DummyClass.should_receive(:raw_response)
+      subject.should_receive(:set_attributes)
+      subject.update_self.call(PS::DummyClass)
+    end
+
+    it "Should prepare ps object" do
+      PS::DummyClass.should_receive(:prepare_ps_object)
+      subject.instantiate_self.call(PS::DummyClass)
     end
   end
 end

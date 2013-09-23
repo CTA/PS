@@ -1,5 +1,5 @@
 module PS
-  class CustomerAccount < PsObject
+  class CustomerAccount < Object
     attr_accessor :customer_id
 
     def make_default

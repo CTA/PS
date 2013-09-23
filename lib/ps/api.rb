@@ -1,5 +1,6 @@
 module PS
   module Api 
+    # how to have 2 connections at once
     def connect(format)
       format ||= "JSON"
       begin

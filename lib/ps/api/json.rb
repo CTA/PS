@@ -12,10 +12,7 @@ module PS
       end
 
       def request(method, params={})
-          self.class.post(request_url(method), options_hash(params)).parsed_response['d']
-      end
-
-      def tell(method, params={})
+        self.class.post(request_url(method), options_hash(params)).parsed_response['d']
       end
 
       def date?(object)
@@ -47,8 +44,8 @@ module PS
           post_data[:userkey] = @userkey
           post_data = format_request_dates(post_data).to_json
           { 
-          :body => post_data, 
-          :headers => header(post_data.to_json.length.to_s)
+            :body => post_data, 
+            :headers => header(post_data.to_json.length.to_s)
           }
         end
 

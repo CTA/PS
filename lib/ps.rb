@@ -12,14 +12,14 @@ require 'ps/api'
 require 'ps/base'
 
 #ps objects
-require 'ps/psobject'
-require 'ps/customer'
-require 'ps/customer_account'
-require 'ps/credit_card_account'
-require 'ps/ach_account'
-require 'ps/payment'
-require 'ps/recurring_payment'
-require 'ps/user'
+require 'ps/object'
+require 'ps/objects/customer'
+require 'ps/objects/customer_account'
+require 'ps/objects/credit_card_account'
+require 'ps/objects/ach_account'
+require 'ps/objects/payment'
+require 'ps/objects/recurring_payment'
+require 'ps/objects/user'
 
 
 require 'ps/response'

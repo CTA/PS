@@ -1,18 +1,18 @@
 module PS
-  class Customer < PsObject
+  class Customer < Object
     attr_accessor :first_name,:middle_name,:last_name,:email,:alt_email,:phone,:alt_phone,:fax,:web_site,:billing_address1,:billing_address2,:billing_city,:billing_state,:billing_postal_code,:billing_country_code,:shipping_same_as_billing,:shipping_address1,:shipping_address2,:shipping_city,:shipping_state,:shipping_postal_code,:shipping_country_code,:company_name,:notes,:last_modified,:created_on
 
     def save
       begin
         save!()
         true
-      rescue
+      rescue 
         false
       end
     end
 
     def save!
-      request("addcustomer", { :customer => attributes }) update_self()
+      request("addcustomer", { :customer => attributes }, &update_self)
     end
 
     def destroy
@@ -22,10 +22,6 @@ module PS
       else
         false
       end
-    end
-
-    def credit_card_account
-      CreditCardAccount.find(self.ps_reference_id)
     end
 
     def set_default_customer_account(account_id)
@@ -43,30 +39,36 @@ module PS
     class << self
       #TODO: Account param should be a PS::CreditCardAccount, ensure this
       #returns [ PS::Customer, PS::CustomerAccount, Ps::Payment ]
-      def create_and_make_payment(customer={}, account={}, amount=0.0, cid="")
+      def create_and_make_cc_payment(customer={}, account={}, amount=0.0, cid="")
         request("addcustomerandmakeccpayment", {
           :customer => customer, 
           :customerAccount => account, 
           :amount => amount, 
           :cid => cid
-        }) instantiate_self()
+        }, &instantiate_object)
+      end
+
+      def create_and_make_ach_payment(customer={}, account={}, amount=0.0, cid="")
+        request("addcustomerandmakeachpayment", {
+          :customer => customer, 
+          :customerAccount => account, 
+          :amount => amount, 
+          :cid => cid
+        }, &instantiate_object)
       end
 
       def get_customer_and_default_accounts(customer_id)
-        request_and_instantiate("GetCustomerAndDefaultAccounts", { :customerid => customer_id })
+        request("GetCustomerAndDefaultAccounts", { :customerid => customer_id }, &instantiate_object)
       end
 
       def find(id)
-        request("getcustomer", { :id => id }) instantiate_self()
+        request("getcustomer", { :id => id }, &instantiate_object)
       end
 
       def create(options={})
-        request("addcustomer", { :customer => options }) 
-      end
-
-      def destroy(customer_id)
-        request("deletecustomer", { :id => customer_id } )
-        true
+        customer = self.new(options)
+        customer.save!()
+        return customer
       end
     end
   end

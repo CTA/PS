@@ -1,5 +1,5 @@
 module PS
-  class PsObject < Base
+  class Object < Base
     attr_accessor :ps_reference_id
 
     def initialize(params = {})
@@ -27,7 +27,7 @@ module PS
       }
     end
 
-    def instantiate_self
+    def self.instantiate_object
       Proc.new { |response|
         response.prepare_ps_object()
       }
