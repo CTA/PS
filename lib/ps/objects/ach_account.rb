@@ -7,6 +7,15 @@ module PS
     end
 
     def save
+      begin
+        save!()
+        true
+      rescue Exception
+        false
+      end
+    end
+
+    def save!
       request("addcustomerachaccount", { :customerAccount => attributes })
     end
 

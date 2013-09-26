@@ -6,5 +6,6 @@ FactoryGirl.define do
     routing_number          "086506955"
     account_number          "411111111"
     bank_name               "Some Holdings"
+    customer_id             0
   end
 end

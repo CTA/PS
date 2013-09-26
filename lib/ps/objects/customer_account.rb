@@ -12,12 +12,13 @@ module PS
     end
 
     class << self 
-      def find(account_id)
-        request("GetCustomerAccountByAccountId", { :accountId => account_id })
+      def find(account_id, customer_id)
+        #The name of this method in Paysimple is sooo misleading...
+        request("GetCustomerAccountByAccountId", { :accountId => account_id, :customerId => customer_id }, &instantiate_object)
       end
 
       def default(customer_id)
-        request("GetDefaultCustomerAccount", { :customerId => customer_id })
+        request("GetDefaultCustomerAccount", { :customerId => customer_id }, &instantiate_object)
       end
     end
   end

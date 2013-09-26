@@ -6,7 +6,7 @@ module PS
       begin
         save!()
         true
-      rescue
+      rescue Exception
         false
       end
     end

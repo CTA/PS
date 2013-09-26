@@ -22,19 +22,18 @@ describe "An instance of", PS::Customer do
       ) 
     end
 
-    it "should create a customer, customerAccount, and Payment" do
+    it "should create a customer, creditCardAccount, and Payment" do
       response = subject
       response[0].class.should == PS::Customer
-      response[1].class.should == PS::CustomerAccount
+      response[1].class.should == PS::CreditCardAccount
       response[2].class.should == PS::Payment
     end
   end
 
   describe "#create_and_make_ach_payment" do
-    let(:customer) { PS::Customer.create(FactoryGirl.attributes_for(:customer)) }
     subject do
       PS::Customer.create_and_make_ach_payment(
-        customer,
+        FactoryGirl.attributes_for(:customer),
         FactoryGirl.attributes_for(:ach_account),
         amount=1.00,
         "999"
@@ -44,17 +43,17 @@ describe "An instance of", PS::Customer do
     it "should create a customer, customerAccount, and Payment" do
       response = subject
       response[0].class.should == PS::Customer
-      response[1].class.should == PS::CustomerAccount
+      response[1].class.should == PS::AchAccount
       response[2].class.should == PS::Payment
     end
   end
 
   describe "get_customer_and_default_accounts" do
-    let(:customer_id) { PS::Customer.create(FactoryGirl.attributes_for(:customer)).ps_reference_id }
+    let(:customer_id) { FactoryGirl.create(:customer).ps_reference_id }
 
     before do
-      credit_card_account = PS::CreditCardAccount.create({:customer_id => customer_id, :account_number => "4111111111111111", :c_c_expiry => "12/#{Time.now.strftime("%Y")}", :c_c_type => 1})
-      credit_card_account.make_default
+      FactoryGirl.create(:credit_card_account, { :customer_id => customer_id }).make_default
+      #FactoryGirl.create(:ach_account, { :customer_id => customer_id }).make_default
     end
 
     subject { PS::Customer.get_customer_and_default_accounts(customer_id) }
@@ -63,7 +62,7 @@ describe "An instance of", PS::Customer do
       response = subject
       response[0].class.should == PS::Customer
       response[1].class.should == PS::CreditCardAccount
-      response[2].class.should == PS::AchAccount
+      #response[2].class.should == PS::AchAccount
     end
   end
 

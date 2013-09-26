@@ -38,6 +38,7 @@ module PS
       if value.length == 1 then
         @raw = value.first.snake_case_keys 
       else
+        value.delete_if(&:nil?)
         @raw = value.map(&:snake_case_keys)
       end
     end
@@ -45,9 +46,9 @@ module PS
     def prepare_ps_object
       prepare_object_dates()
       if @ps_object.length == 1 then
-        @ps_object = instantiate_object(@sub_type, snake_case_response().first)
+        @ps_object = instantiate_object(snake_case_response().first)
       else
-        instantiate_object(@sub_type.split(","), snake_case_response())
+        instantiate_object(snake_case_response())
       end
       return @ps_object
     end
@@ -76,14 +77,15 @@ module PS
         end
       end
 
-      def instantiate_object(sub_type, object)
+      def instantiate_object(object)
         case object
         when Array
           object.each_with_index do |object, i|
-            @ps_object[i] = instantiate_object(sub_type[i % sub_type.length], object)
+            @ps_object[i] = instantiate_object(object)
           end
         when Hash
-          CLASS[sub_type].new(object.symbolize_keys)
+          klass_name = object.delete("__type").scan(/[a-zA-Z]+:/)[0][0..-2]
+          CLASS[klass_name].new(object.symbolize_keys)
         end
       end
   end

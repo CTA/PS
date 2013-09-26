@@ -6,7 +6,7 @@ module PS
       begin
         save!()
         true
-      rescue 
+      rescue Exception
         false
       end
     end
@@ -50,6 +50,7 @@ module PS
       def create_and_make_cc_payment(customer={}, account={}, amount=0.0, cid="")
         request("addcustomerandmakeccpayment", {
           :customer => customer, 
+          #account must have a customer_id of 0
           :customerAccount => account, 
           :amount => amount, 
           :cid => cid
@@ -66,7 +67,7 @@ module PS
       end
 
       def get_customer_and_default_accounts(customer_id)
-        request("GetCustomerAndDefaultAccounts", { :customerid => customer_id }, &instantiate_object)
+        request("GetCustomerAndDefaultAccounts", { :customerId => customer_id }, &instantiate_object)
       end
 
       def find(id)
