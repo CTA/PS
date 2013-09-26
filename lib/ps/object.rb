@@ -21,16 +21,18 @@ module PS
       end
     end
 
-    def update_self
-      Proc.new { |response| 
-        set_attributes(response.raw_response())
-      }
-    end
+    private
+      #this block will fail if more than one PS::Object is returned.
+      def update_self
+        Proc.new { |response| 
+          set_attributes(response.raw)
+        }
+      end
 
-    def self.instantiate_object
-      Proc.new { |response|
-        response.prepare_ps_object()
-      }
-    end
+      def self.instantiate_object
+        Proc.new { |response|
+          response.prepare_ps_object
+        }
+      end
   end
 end

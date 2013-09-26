@@ -32,19 +32,4 @@ describe "An instance of", PS::Object do
       end
     end
   end
-
-  describe "response blocks" do
-    subject { PS::Object.new }
-
-    it "should set attributes for the psobject returen by a request" do
-      PS::DummyClass.should_receive(:raw_response)
-      subject.should_receive(:set_attributes)
-      subject.update_self.call(PS::DummyClass)
-    end
-
-    it "Should prepare ps object" do
-      PS::DummyClass.should_receive(:prepare_ps_object)
-      subject.instantiate_self.call(PS::DummyClass)
-    end
-  end
 end

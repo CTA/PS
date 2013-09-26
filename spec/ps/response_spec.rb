@@ -14,8 +14,8 @@ describe "An instance of", PS::Response do
         subject.prepare_ps_object.last_modified.instance_of?(Time).should == true
       end
 
-      it "raw_response should return an array" do
-        subject.raw_response.class.should == Hash
+      it "raw should return an array" do
+        subject.raw.class.should == Hash
       end
     end
 
@@ -28,8 +28,8 @@ describe "An instance of", PS::Response do
         ps_object.each { |o| o.class.should_not == Hash }
       end
 
-      it "raw_response should return an array" do
-        subject.raw_response.class.should == Array
+      it "raw should return an array" do
+        subject.raw.class.should == Array
       end
     end
   end

@@ -1,6 +1,6 @@
 module PS 
   class Response < Base
-    attr_accessor :is_success,:error_message,:sub_type,:ps_object,:total_items,:items_per_page,:current_page,:error_type,:exception_detail
+    attr_accessor :is_success,:error_message,:sub_type,:ps_object,:total_items,:items_per_page,:current_page,:error_type,:exception_detail, :raw
 
     CLASS = {
       "PsCustomer" => PS::Customer,
@@ -30,14 +30,15 @@ module PS
     def initialize(params={})
       params.each { |k,v| instance_variable_set("@#{k.snake_case}", v) }
       successful?
+      self.raw = @ps_object if @ps_object
       self
     end
 
-    def raw_response
-      if @ps_object.length == 1 then
-        snake_case_response()[0] || {}
+    def raw=(value)
+      if value.length == 1 then
+        @raw = value.first.snake_case_keys 
       else
-        snake_case_response() || {}
+        @raw = value.map(&:snake_case_keys)
       end
     end
 
@@ -54,7 +55,7 @@ module PS
     private 
       def successful?
         raise RequestError, @exception_detail["InnerException"]["Message"] if @exception_detail
-        raise RequestError, @error_message.join(";") unless @is_success == true
+        raise RequestError, @error_message.join("; ") unless @is_success == true
       end
 
       #Paysimple returns the attribute names in CamelCase, but the attributes use
