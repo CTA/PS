@@ -4,6 +4,7 @@ class DummyClass
   extend PS::Api
 end
 describe "An instance of", PS::Api do
+  before { connect() }
   context "given a JSON format" do
     subject { DummyClass }
     before { subject.connect("json") }
@@ -17,7 +18,7 @@ describe "An instance of", PS::Api do
     end
 
     it "should make an api request" do
-      PS::Response.stub(:ps_object) { false }
+      #PS::Response.stub(:ps_object) { false }
       PS::Api::Json.any_instance.should_receive(:request) { PS::Response }
       subject.request("getstates")
     end

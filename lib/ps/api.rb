@@ -46,9 +46,9 @@ module PS
     end
 
     def host
-      if env == "development" then
+      if env() == "development" then
         "https://sandbox-api.paysimple.com/3.00/paysimpleapi"
-      elsif env == "production" then
+      elsif env() == "production" then
         "https://api.paysimple.com/3.00/paysimpleapi"
       end
     end

@@ -19,6 +19,4 @@ require File.dirname(__FILE__)+"/../lib/ps.rb"
 
 SimpleCov.command_name "ps"
 
-connect()
 FactoryGirl.find_definitions
-

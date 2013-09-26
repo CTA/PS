@@ -1,8 +1,7 @@
 require 'spec_helper'
-describe "An instance of", PS::Api::Json do
+describe "An instance of PS::Api::json" do
+  before { connect }
   describe "#request" do
-    let(:config) { formatted_connection_config("JSON", :production) }
-
     subject { $api }
 
     it "should make a request" do

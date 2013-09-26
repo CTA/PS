@@ -3,8 +3,7 @@ module PS
     attr_accessor :ps_reference_id, :first_name, :last_name, :company, :email, :phone
     
     def self.get
-      request("getuserinfo")
+      request("getuserinfo", &instantiate_object)
     end
-
   end
 end

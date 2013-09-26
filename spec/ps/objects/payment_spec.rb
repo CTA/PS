@@ -3,9 +3,12 @@ require 'spec_helper'
 describe "An instance of", PS::Payment do
   
   describe "#find" do
-    subject { PS::Payment.new(FactoryGirl.attributes_for(:payment)) }
+    let(:customer_id) { FactoryGirl.create(:customer).ps_reference_id }
+    #TODO: have payments to find...
+    subject { PS::Payment.find(customer_id) }
+
     it "should find a customer given a customer_id" do
-      puts subject.inspect 
+      subject
     end
 
     it "should find a customer given criteria to search with"

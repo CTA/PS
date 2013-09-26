@@ -24,6 +24,14 @@ module PS
       end
     end
 
+    def payments
+      if self.ps_reference_id then
+        Payment.find(self.ps_reference_id, &instantiate_object)
+      else
+        false
+      end
+    end
+
     def set_default_customer_account(account_id)
       CustomerAccount.find(account_id).make_default
     end

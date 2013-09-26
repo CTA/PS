@@ -1,6 +1,7 @@
 require "spec_helper"
 
 describe "An instance of", PS::Base do
+  before { connect() }
 
   context "given a valid connection Hash" do 
     context "with the format being JSON" do
