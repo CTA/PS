@@ -40,5 +40,11 @@ module PS
           response
         }
       end
+
+      def get_response_object 
+        Proc.new { |response|
+          response
+        }
+      end
   end
 end
