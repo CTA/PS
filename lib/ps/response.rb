@@ -38,10 +38,25 @@ module PS
     def initialize(params={})
       params.each { |k,v| instance_variable_set("@#{k.snake_case}", v) }
       successful?
-      self.raw = @ps_object if @ps_object
+      @ps_object ||= [] 
+      self.raw = @ps_object
       self
     end
 
+    def to_s
+      puts @ps_object
+    end
+
+    ##
+    # Making response act like an array
+    def method_missing(method, *args, &block)
+      if block then
+        @ps_object.send(method, &block)
+      else
+        @ps_object.send(method, *args)
+      end
+    end
+    
     ##
     # Instantiates the elements of @ps_object into their appropriate subclass 
     # of PS::Object.
@@ -56,6 +71,8 @@ module PS
     end
 
     private 
+    
+
       def raw=(value)
         if value.length == 1 then
           @raw = value.first.snake_case_keys 

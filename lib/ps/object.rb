@@ -21,6 +21,11 @@ module PS
       end
     end
 
+    def to_s
+      attrs = self.attributes.to_a.map! { |k_v| k_v.join(": ") }.join(", ")
+      "#<#{self.class} #{attrs}>"
+    end
+
     private
       #this block will fail if more than one PS::Object is returned.
       def update_self
