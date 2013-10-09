@@ -44,5 +44,8 @@ module PS
       request("listrecurringpayments", { :startDate => start_date, :endDate => end_date, :customerId => customer_id, :filter => filter, :criteria => criteria }, &instantiate_object)
     end
 
+    def self.find(schedule_id)
+      request("GetRecurringPaymentSchedule", { :scheduleId => schedule_id }, &instantiate_object)
+    end
   end
 end

@@ -29,27 +29,26 @@ module PS
     private
       #this block will fail if more than one PS::Object is returned.
       def update_self
-        Proc.new { |response| 
-          set_attributes(response.raw)
-        }
+        Proc.new { |response| set_attributes(response.raw) }
       end
 
       def self.instantiate_object
-        Proc.new { |response|
-          response.prepare_ps_object
-        }
+        Proc.new do |response|
+          response.instantiate_ps_objects
+          if response.ps_object.instance_of?(Array) then
+            response
+          else
+            response.ps_object
+          end
+        end
       end
       
       def self.get_response_object 
-        Proc.new { |response|
-          response
-        }
+        Proc.new { |response| response }
       end
 
       def get_response_object 
-        Proc.new { |response|
-          response
-        }
+        Proc.new { |response| response }
       end
   end
 end

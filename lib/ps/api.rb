@@ -38,7 +38,7 @@ module PS
 
     def request(method, params={}, &block)
       response = Response.new($api.request(method, camel_case_request(params)))
-      block.call(response) if block
+      block[response] if block
     end
 
     def env 
