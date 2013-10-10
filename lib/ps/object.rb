@@ -22,7 +22,7 @@ module PS
     end
 
     def to_s
-      attrs = self.attributes.to_a.map! { |k_v| k_v.join(": ") }.join(", ")
+      attrs = self.attributes.to_a.map { |k_v| "#{k_v[0]}: '#{k_v[1]}'" }.join(", ")
       "#<#{self.class} #{attrs}>"
     end
 

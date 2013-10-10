@@ -49,6 +49,8 @@ module PS
       self
     end
 
+    ##
+    # Making response look like an array
     def to_s
       p @ps_object
     end
@@ -79,7 +81,6 @@ module PS
 
     private 
     
-
       def raw=(value)
         if value.length == 1 then
           @raw = value.first
