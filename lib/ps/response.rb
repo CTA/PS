@@ -49,27 +49,6 @@ module PS
       self
     end
 
-    ##
-    # Making response look like an array
-    def to_s
-      p @ps_object
-    end
-
-    ##
-    # Making response act like an array
-    def method_missing(method, *args, &block)
-      unless @ps_object.respond_to?(method) then
-        raise NoMethodError, "undefined method '#{method.to_s}' for PS::Response"
-      end
-      if block && args then
-        @ps_object.send(method, *args, &block)
-      elsif block then
-        @ps_object.send(method, &block)
-      else
-        @ps_object.send(method, *args)
-      end
-    end
-    
     ## #TODO: need a better name...
     # Instantiates the elements of @ps_object into their appropriate subclass 
     # of PS::Object.

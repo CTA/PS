@@ -33,14 +33,7 @@ module PS
       end
 
       def self.instantiate_object
-        Proc.new do |response|
-          response.instantiate_ps_objects
-          if response.ps_object.instance_of?(Array) then
-            response
-          else
-            response.ps_object
-          end
-        end
+        Proc.new { |response| response.instantiate_ps_objects }
       end
       
       def self.get_response_object 
