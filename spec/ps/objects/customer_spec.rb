@@ -9,6 +9,7 @@ describe "An instance of", PS::Customer do
     it "should create a new customer" do
       new_customer = subject.create(FactoryGirl.attributes_for(:customer))
       new_customer.class.should == subject
+p new_customer
     end
   end
 
@@ -143,6 +144,11 @@ describe "An instance of", PS::Customer do
     it "should get the default customer account" do
       PS::CustomerAccount.should_receive(:default).with(customer_id)
       subject.default_customer_account
+    end
+
+    it "should get payments for the customer" do
+      PS::Payment.should_receive(:find).with(customer_id)
+      subject.payments
     end
   end
 end

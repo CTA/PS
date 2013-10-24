@@ -2,6 +2,14 @@ require 'spec_helper'
 
 describe "An instance of", PS::RecurringPayment do
   before { connect() }
+  let(:customer_id) do
+    PS::Customer.create(FactoryGirl.attributes_for(:customer)).ps_reference_id 
+  end
+  let(:customer_account_id) do
+    PS::CreditCardAccount.create(
+      FactoryGirl.attributes_for(:credit_card_account, :customer_id => customer_id )
+    ).ps_reference_id 
+  end
   
   describe "#create" do
     subject { PS::RecurringPayment }
@@ -11,29 +19,38 @@ describe "An instance of", PS::RecurringPayment do
     end
   end
 
-  describe "#save" do
-    subject { PS::RecurringPayment }
-    it "should save the attributes of a new recurring payment" do
-
-      subject.new(test_recurring_payment()).save.class.should == subject
+  context "given a recurring payment" do
+    subject do
+      PS::RecurringPayment.create(
+        FactoryGirl.attributes_for(:recurring_payment, 
+          { 
+            :customer_id => customer_id,
+            :customer_account_id => customer_account_id
+          }
+        ) 
+      )
     end
-  end
 
-  describe "#edit" do
-    subject { PS::RecurringPayment.create(test_recurring_payment()) }
-    context "given an instantiation of a", PS::RecurringPayment, " object" do
+    describe "#update" do
       it "should be able to set an instance variable to something else and update" do
+        p subject.attributes
         subject.has_end_date = true
         subject.end_date = Time.now+(86400*365)
-        subject.edit
+        subject.update
       end
     end
-  end
 
-  describe "#suspend" do
-  end
+    describe "#suspend" do
+      it "should suspend the schedule" do
+        subject.suspend
+      end
+    end
 
-  describe "#resume" do
+    describe "#resume" do
+      it "should resume the schedule" do
+        subject.resume
+      end
+    end
   end
 
   describe ".list" do

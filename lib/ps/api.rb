@@ -1,6 +1,8 @@
 module PS
   module Api 
-    # how to have 2 connections at once
+    ##
+    # Establishes the connection to the appropriate paysimple v3 api.
+    # Defaults to JSON
     def connect(format)
       format ||= "JSON"
       begin
@@ -61,10 +63,15 @@ module PS
       params.each { |key, value| value.camel_case_keys if value.class == Hash }
     end
 
+    ##
+    # returns the conditions for detecting if something is a date format for
+    # the current format class
     def date?(object)
       $api.date?(object)
     end
     
+    ##
+    # How to parse dates for thi current format
     def parse_date(date)
       $api.parse_date(date)
     end

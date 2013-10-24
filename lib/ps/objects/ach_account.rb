@@ -3,7 +3,9 @@ module PS
     attr_accessor :is_checking_account, :routing_number, :account_number, :bank_name 
 
     def self.create(params={})
-      self.new(params).save
+      aa = self.new(params)
+      aa.save
+      return aa
     end
 
     def save
@@ -16,15 +18,17 @@ module PS
     end
 
     def save!
-      request("addcustomerachaccount", { :customerAccount => attributes })
+      request("addcustomerachaccount", { :customerAccount => attributes }, &update_self)
     end
 
     def update
       request("updatecustomerachaccount", { :customerAccount => attributes })
+      true
     end
 
     def delete
-      request("deletecustomerachaccount", { :accountid => self.customer_id })
+      request("deletecustomerachaccount", { :accountId => self.ps_reference_id })
+      true
     end
   end
 end

@@ -1,6 +1,7 @@
 require 'spec_helper'
 describe "An instance of PS::Api::json" do
   before { connect }
+  #TODO test date formatting 
   describe "#request" do
     subject { $api }
 

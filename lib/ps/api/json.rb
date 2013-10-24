@@ -26,19 +26,23 @@ module PS
       end                                            
 
       private
+        #TODO refactor
         def format_request_dates(request)
-          request.each do |key, value|
-            if value.instance_of? Time then
-              request[key] = format_date(value)
+          request.each do |request_key,request_value|
+            if request_value.instance_of? Hash then
+              request_value.each do |obj_key, obj_value|
+                if obj_value.instance_of? Time then
+                  request[request_key][obj_key] = format_date(obj_value)
+                end
+              end
             end
           end
         end
 
         #format http://msdn.microsoft.com/en-us/library/bb299886.aspx#intro_to_json_sidebarb 
         def format_date(date)
-          "/Date(#{(date.to_i*1000)}-0700)/"     
+          "/Date(#{(date.to_i*1000)}-0700)/"
         end                                            
-
 
         def options_hash(post_data)
           post_data[:apikey] = @apikey

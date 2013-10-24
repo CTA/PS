@@ -22,7 +22,15 @@ module PS
     end
 
     def to_s
-      attrs = self.attributes.to_a.map { |k_v| "#{k_v[0]}: '#{k_v[1]}'" }.join(", ")
+      attrs = self.attributes.to_a.map { |k_v| 
+        case k_v[1]
+          when Fixnum
+            "#{k_v[0]}: #{k_v[1]}" 
+          when String || Time
+            "#{k_v[0]}: '#{k_v[1]}'" unless k_v[1].empty?
+        end
+
+      }.delete_if(&:nil?).join(", ")
       "#<#{self.class} #{attrs}>"
     end
 
@@ -34,14 +42,6 @@ module PS
 
       def self.instantiate_object
         Proc.new { |response| response.instantiate_ps_objects }
-      end
-      
-      def self.get_response_object 
-        Proc.new { |response| response }
-      end
-
-      def get_response_object 
-        Proc.new { |response| response }
       end
   end
 end

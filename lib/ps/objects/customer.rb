@@ -25,11 +25,7 @@ module PS
     end
 
     def payments
-      if self.ps_reference_id then
-        Payment.find(self.ps_reference_id, &instantiate_object)
-      else
-        false
-      end
+      Payment.find(self.ps_reference_id)
     end
 
     def set_default_customer_account(account_id)
@@ -45,8 +41,7 @@ module PS
     end
 
     class << self
-      #TODO: Account param should be a PS::CreditCardAccount, ensure this
-      #returns [ PS::Customer, PS::CustomerAccount, Ps::Payment ]
+      #returns [ PS::Customer, PS::CustomerAccount, PS::Payment ]
       def create_and_make_cc_payment(customer={}, account={}, amount=0.0, cid="")
         request("addcustomerandmakeccpayment", {
           :customer => customer, 
@@ -76,7 +71,7 @@ module PS
 
       def create(options={})
         customer = self.new(options)
-        customer.save!
+        customer.save()
         return customer
       end
     end

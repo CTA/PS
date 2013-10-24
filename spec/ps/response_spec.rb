@@ -8,7 +8,11 @@ describe "An instance of", PS::Response do
     it "should check for success, and instantiate PsObject results" do
       response = subject
       response.instantiate_ps_objects.class.should == Array
-      response.ps_object.each { |o| o.class.should_not == Hash }
+      response.ps_object.each do |o|
+        o.class.should_not == Hash 
+        p o
+        o.to_s.include?("/Date(").should == false
+      end
     end
 
     it "raw should return an array" do

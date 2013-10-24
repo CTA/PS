@@ -4,7 +4,7 @@ module PS
 
     def save
       begin 
-        save!
+        save!()
         true
       rescue Exception
         false
@@ -12,23 +12,22 @@ module PS
     end
 
     def save!
-      if self.ps_reference_id then
-        update()
-      else
-        request("addrecurringpayment", { :recurringPayment => attributes }, &update_self)
-      end
+      request("addrecurringpayment", { :recurringPayment => attributes }, &instantiate_object)
     end
 
     def update
       request("modifyrecurringpayment", { :paymentSchedule => attributes })
+      true
     end
 
     def suspend
-      request("suspendrecurringpaymentschedule", { :scheduleId => self.ps_reference_id })
+      request("suspendrecurringpaymentschedule", { :scheduleId => self.ps_reference_id }, &update_self)
+      true
     end
 
     def resume
-      request("resumerecurringpaymentschedule", { :scheduleId => self.ps_reference_id })
+      request("resumerecurringpaymentschedule", { :scheduleId => self.ps_reference_id }, &update_self)
+      true
     end
 
     def destroy
@@ -38,6 +37,7 @@ module PS
     def self.create(params={})
       recurring_payment = new(params)
       recurring_payment.save
+      return recurring_payment
     end
 
     def self.list(start_date, end_date, customer_id, filter, criteria)

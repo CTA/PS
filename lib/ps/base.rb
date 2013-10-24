@@ -1,4 +1,3 @@
-#require File.dirname(__FILE__)+"/psobject.rb"
 module PS
   class Base 
     extend Util
@@ -7,9 +6,8 @@ module PS
     include Api
 
     ## params.keys -> [
-    # :host,
-    # :apikey
-    # :userkey
+    # :apikey,
+    # :userkey,
     # :company_name
     ##]
     def self.establish_connection(params={})
