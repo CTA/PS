@@ -9,11 +9,11 @@ Gem::Specification.new do |s|
   s.email           = [ 'seijounai@gmail.com', "kevcollette@gmail.com" ]
   s.homepage        = 'http://github.com/CTA/PSJ'
   s.files           = `git ls-files`.split($/)
-  spec.test_files   = spec.files.grep(%r{^(test|spec|features)/})
+  s.test_files      = s.files.grep(%r{^(test|spec|features)/})
   s.executables     = s.files.grep(%r{^bin/}).map{ |f| File.basename(f) }
   s.test_files      = s.files.grep(%r{^(test|spec|features)/})
   s.require_paths   = ["lib"]
-  spec.license      = "MIT"
+  s.license         = "MIT"
   s.add_dependency('httparty')
   s.add_dependency('json')
 end

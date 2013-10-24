@@ -8,5 +8,5 @@ gem 'rspec'
 
 group :test do
   gem 'factory_girl'
-  gem 'simplecon'
+  gem 'simplecov'
 end
