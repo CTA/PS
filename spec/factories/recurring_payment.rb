@@ -2,10 +2,11 @@ FactoryGirl.define do
   factory :recurring_payment, :class => PS::RecurringPayment do
      customer_id                   0
      customer_account_id           0
-     recurring_schedule_type       RecurringScheduleType::PAYMENT_PLAN
+     schedule_type                 RecurringScheduleType::PAYMENT_PLAN
      start_date                    Time.now
      has_end_date                  false
      billing_frequency_type        BillingFrequencyType::WEEKLY
+     billing_frequency_param       1
      payment_amount                100
      first_payment_done            true
      first_payment_amount          100
@@ -20,6 +21,5 @@ FactoryGirl.define do
      number_of_payments_made       1
      total_amount_paid             100
      date_of_last_payment_made     Time.now-(86400*3)
-     pause_until_date              ""
   end
 end

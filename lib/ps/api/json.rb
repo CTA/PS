@@ -1,3 +1,4 @@
+# encoding: utf-8
 module PS
   module Api
     class Json 
@@ -41,7 +42,7 @@ module PS
 
         #format http://msdn.microsoft.com/en-us/library/bb299886.aspx#intro_to_json_sidebarb 
         def format_date(date)
-          "/Date(#{(date.to_i*1000)}-0700)/"
+          "/Date(#{(date.to_i*1000)}-0600)/"
         end                                            
 
         def options_hash(post_data)

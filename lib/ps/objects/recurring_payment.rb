@@ -1,6 +1,6 @@
 module PS
   class RecurringPayment < Object
-    attr_accessor :customer_id, :customer_account_id, :recurring_schedule_type, :start_date, :has_end_date, :end_date, :billing_frequency_type, :billing_frequency_param, :payment_amount, :first_payment_done, :first_payment_amount, :first_payment_date, :total_due_amount, :total_number_of_payments, :balance_remaining, :number_of_payments_remaining, :invoice_no, :order_id, :description, :schedule_status, :number_of_payment_made, :total_amount_paid, :date_of_last_payment_made, :pause_until_date
+    attr_accessor :customer_id, :customer_account_id, :schedule_type, :start_date, :has_end_date, :end_date, :billing_frequency_type, :billing_frequency_param, :payment_amount, :first_payment_done, :first_payment_amount, :first_payment_date, :total_due_amount, :total_number_of_payments, :balance_remaining, :number_of_payments_remaining, :invoice_no, :order_id, :description, :schedule_status, :number_of_payment_made, :total_amount_paid, :date_of_last_payment_made, :pause_until_date
 
     def save
       begin 
@@ -12,11 +12,11 @@ module PS
     end
 
     def save!
-      request("addrecurringpayment", { :recurringPayment => attributes }, &instantiate_object)
+      request("addrecurringpayment", { :recurringPayment => attributes }, &update_self)
     end
 
     def update
-      request("modifyrecurringpayment", { :paymentSchedule => attributes })
+      request("modifyrecurringpaymentschedule", { :paymentSchedule => attributes })
       true
     end
 
@@ -31,12 +31,13 @@ module PS
     end
 
     def destroy
-      request("deleterecurringschedule", { :recurringPayment => attributes })
+      request("deleterecurringschedule", { :scheduleId => self.ps_reference_id })
+      true
     end	
 
     def self.create(params={})
       recurring_payment = new(params)
-      recurring_payment.save
+      recurring_payment.save()
       return recurring_payment
     end
 
