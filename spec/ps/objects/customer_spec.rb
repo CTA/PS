@@ -9,7 +9,6 @@ describe "An instance of", PS::Customer do
     it "should create a new customer" do
       new_customer = subject.create(FactoryGirl.attributes_for(:customer))
       new_customer.class.should == subject
-p new_customer
     end
   end
 

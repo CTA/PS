@@ -37,11 +37,11 @@ module PS
     private
       #this block will fail if more than one PS::Object is returned.
       def update_self
-        Proc.new { |response| set_attributes(response.raw) }
+        Proc.new { |response|  set_attributes(response.ps_object) }
       end
 
       def self.instantiate_object
-        Proc.new { |response| response.instantiate_ps_objects }
+        Proc.new { |response| PS::Util.instantiate_ps_objects(response.ps_object) }
       end
   end
 end

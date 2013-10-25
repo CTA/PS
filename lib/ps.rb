@@ -3,10 +3,6 @@ require 'httparty'
 require 'json'
 
 #core classes
-require 'ps/util.rb'
-require 'ps/util/string'
-require 'ps/util/hash'
-require 'ps/util/state'
 require 'ps/exceptions'
 require 'ps/api'
 require 'ps/base'
@@ -26,6 +22,12 @@ require 'ps/response'
 
 #enumerables
 require 'ps/enumerations'
+
+#util
+require 'ps/util.rb'
+require 'ps/util/string'
+require 'ps/util/hash'
+require 'ps/util/state'
 
 module PS
 end

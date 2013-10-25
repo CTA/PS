@@ -1,20 +1,6 @@
 module PS 
   class Response < Base
     attr_accessor :is_success,:error_message,:sub_type,:ps_object,:total_items,:items_per_page,:current_page,:error_type,:exception_detail
-    attr_reader :raw
-
-    ##
-    # objects contained within @ps_object have a '__type' attribute that signals
-    # the subclass of PS::Object they represent. This constant provides access
-    # to what class needs to be instantiated relative to what paysimple return.
-    CLASS = {
-      "PsCustomer" => PS::Customer,
-      "PsCustomerAccount" => PS::CustomerAccount,
-      "PsCreditCardAccount" => PS::CreditCardAccount,
-      "PsAchAccount" => PS::AchAccount,
-      "PsPayment" => PS::Payment,
-      "PsDefaultCustomerAccount" => PS::CustomerAccount
-    }
 
     #### Some Basic fields returned by Paysimple
     # {
@@ -44,35 +30,24 @@ module PS
       params.each { |k,v| instance_variable_set("@#{k.snake_case}", v) }
       successful_request?()
       @ps_object ||= [] 
-      snake_case_ps_object_keys()
-      self.raw = @ps_object
+      parse_ps_object()
       self
     end
 
-    ## #TODO: need a better name...
-    # Instantiates the elements of @ps_object into their appropriate subclass 
-    # of PS::Object.
-    def instantiate_ps_objects
-      parse_object_dates()
-      @ps_object = instantiate_object(@raw)
-      return @ps_object
-    end
-
     private 
-    
-      def raw=(value)
-        if value.length == 1 then
-          @raw = value.first
-        else
-          @raw = value
-        end
-      end
-
       ##
       # Checks for errors in the PsResponse.
       def successful_request?
         raise RequestError, @exception_detail["InnerException"]["Message"] if @exception_detail
         raise RequestError, @error_message.join("; ") unless @is_success == true
+      end
+
+      def parse_ps_object()
+        snake_case_ps_object_keys()
+        parse_object_dates()
+        if @ps_object.length == 1 then
+          @ps_object = @ps_object.first
+        end
       end
 
       ##
@@ -102,16 +77,6 @@ module PS
               @ps_object[i][key] = parse_date(value)
             end
           end
-        end
-      end
-
-      def instantiate_object(object)
-        case object
-        when Array
-          object.map { |obj| instantiate_object(obj) }
-        when Hash
-          klass_name = object.delete("__type").scan(/[a-zA-Z]+:/)[0].delete(":")
-          CLASS[klass_name].new(object.symbolize_keys)
         end
       end
   end
