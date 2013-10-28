@@ -17,8 +17,8 @@ FactoryGirl.define do
      number_of_payments_remaining  9
      invoice_no                    0
      order_id                      0
-     schedule_stats                PS::ScheduleStatus::ACTIVE
-     number_of_payments_made       1
+     schedule_status               PS::ScheduleStatus::ACTIVE
+     number_of_payment_made        1
      total_amount_paid             100
      date_of_last_payment_made     Time.now-(86400*3)
   end

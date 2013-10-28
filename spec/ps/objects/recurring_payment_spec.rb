@@ -29,6 +29,18 @@ describe "An instance of", PS::RecurringPayment do
     end
   end
 
+  context "bad save" do
+    subject do
+      PS::RecurringPayment.new(
+        FactoryGirl.attributes_for(:recurring_payment, {:start_date => "ratesdlcd" })
+      ).save()
+    end
+
+    it "should catch the exception and return false" do
+      subject.should == false
+    end
+  end
+
   describe "#destroy" do
     let(:schedule) {
       PS::RecurringPayment.create(
@@ -83,6 +95,51 @@ describe "An instance of", PS::RecurringPayment do
   end
 
   describe ".list" do
+    let(:start_date) { Time.now - (36400*5) }
+    let(:end_date) { Time.now + (36400*5) }
+    let(:customer_id) { FactoryGirl.create(:customer).ps_reference_id }
+    let(:account_id) { FactoryGirl.create(:credit_card_account, { :customer_id => customer_id }).ps_reference_id }
+
+
+    subject { PS::RecurringPayment.list(start_date, end_date, customer_id) }
+
+    before do
+      2.times do
+        PS::RecurringPayment.create(
+          FactoryGirl.attributes_for(:recurring_payment, 
+            {
+              :customer_id => customer_id,
+              :customer_account_id => account_id
+            }
+          )
+        )
+      end
+    end
+
+    it "should return all schedules between the start_date and end_date for a given customer_id" do
+      schedules = subject
+      schedules.length.should == 2
+    end
   end
 
+  describe ".find" do
+    let(:customer_id) { FactoryGirl.create(:customer).ps_reference_id }
+    let(:account_id) { FactoryGirl.create(:credit_card_account, { :customer_id => customer_id }).ps_reference_id }
+    let(:schedule_id) do
+        PS::RecurringPayment.create(
+          FactoryGirl.attributes_for(:recurring_payment, 
+            {
+              :customer_id => customer_id,
+              :customer_account_id => account_id
+            }
+          )
+        ).ps_reference_id
+    end
+
+    subject { PS::RecurringPayment.find(schedule_id) }
+
+    it "should return the schedule base off of the schedule id" do
+      subject.ps_reference_id.should == schedule_id
+    end
+  end
 end

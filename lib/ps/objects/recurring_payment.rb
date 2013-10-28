@@ -41,8 +41,16 @@ module PS
       return recurring_payment
     end
 
-    def self.list(start_date, end_date, customer_id, filter, criteria)
-      request("listrecurringpayments", { :startDate => start_date, :endDate => end_date, :customerId => customer_id, :filter => filter, :criteria => criteria }, &instantiate_object)
+    def self.list(start_date, end_date, customer_id, criteria=nil, filter={}) 
+      criteria ||= { :Page => 1, :items_per_page => 12 }
+      request("listrecurringpayments", 
+              {
+                :startDate => start_date,
+                :endDate => end_date,
+                :customerId => customer_id,
+                :filter => filter,
+                :criteria => criteria
+              }, &instantiate_object)
     end
 
     def self.find(schedule_id)

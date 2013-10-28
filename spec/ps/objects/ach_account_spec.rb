@@ -41,5 +41,17 @@ describe "An instance of", PS::AchAccount do
         subject
       end
     end
+
+    context "bad save" do
+      subject do
+        PS::AchAccount.new(
+          FactoryGirl.attributes_for(:ach_account)
+        ).save()
+      end
+
+      it "should catch the exception and return false" do
+        subject.should == false
+      end
+    end
   end
 end

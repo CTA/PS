@@ -17,6 +17,19 @@ describe PS::CreditCardAccount do
       it "should create a credit card account" do
         subject.class.should == PS::CreditCardAccount
       end
+
+    end
+
+    context "bad save" do
+      subject do
+        PS::CreditCardAccount.new(
+          FactoryGirl.attributes_for(:credit_card_account)
+        ).save
+      end
+
+      it "should catch the exception and return false" do
+        subject.should == false
+      end
     end
 
     describe "#default_for_customer_id" do

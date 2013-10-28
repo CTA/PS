@@ -43,5 +43,6 @@ module PS
       def self.instantiate_object
         Proc.new { |response| PS::Util.instantiate_ps_objects(response.ps_object) }
       end
+
   end
 end
