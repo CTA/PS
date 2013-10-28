@@ -27,7 +27,7 @@ module PS
     #   parsed_response = post_response.parsed_response['d'] #the 'd' key is specific to the json format
     #   Response.new(parsed_response) 
     def initialize(params={})
-      params.each { |k,v| instance_variable_set("@#{k.snake_case}", v) }
+      params.each { |k,v| instance_variable_set("@#{k.to_snake_case}", v) }
       successful_request?()
       @ps_object ||= [] 
       parse_ps_object()

@@ -11,7 +11,8 @@ module PS
       "PsCreditCardAccount" => PS::CreditCardAccount,
       "PsAchAccount" => PS::AchAccount,
       "PsPayment" => PS::Payment,
-      "PsDefaultCustomerAccount" => PS::CustomerAccount
+      "PsDefaultCustomerAccount" => PS::CustomerAccount,
+      "PsRecurringPayment" => PS::RecurringPayment
     }
 
     def self.instantiate_ps_objects(ps_objects)
