@@ -47,6 +47,7 @@ module PS
       $api.env
     end
 
+    #TODO: make constants
     def host
       if env() == "development" then
         "https://sandbox-api.paysimple.com/3.00/paysimpleapi"

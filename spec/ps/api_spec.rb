@@ -19,7 +19,8 @@ describe "An instance of", PS::Api do
 
     it "should make an api request" do
       #PS::Response.stub(:ps_object) { false }
-      PS::Api::Json.any_instance.should_receive(:request) { PS::Response }
+      PS::Api::Json.any_instance.should_receive(:request)
+      PS::Response.should_receive(:new) 
       subject.request("getstates")
     end
   end
@@ -48,8 +49,5 @@ describe "An instance of", PS::Api do
       ps_api.should_receive(:env).exactly(2) { "production" }
       subject.should == "https://api.paysimple.com/3.00/paysimpleapi"
     end
-  end
-
-  describe "" do
   end
 end

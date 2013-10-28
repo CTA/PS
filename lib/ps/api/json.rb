@@ -36,6 +36,8 @@ module PS
                   request[request_key][obj_key] = format_date(obj_value)
                 end
               end
+            elsif request_value.instance_of? Time then
+              request[request_key] = format_date(request_value)
             end
           end
         end
