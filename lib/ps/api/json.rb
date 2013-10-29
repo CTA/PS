@@ -9,7 +9,7 @@ module PS
         @apikey = nil
         @userkey = nil
         @company_name = nil
-        @env = "development"
+        @env = "production"
       end
 
       def request(method, params={})
