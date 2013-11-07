@@ -10,7 +10,7 @@ module PS
       rescue LoadError
         raise ConnectionError, "#{format} is not a supported format"
       end
-      $api = eval("PS::Api::#{format.downcase.capitalize}").new
+      $api = PS::Api.const_get(format.downcase.capitalize).new
     end
 
     def validate_and_assign(params)
