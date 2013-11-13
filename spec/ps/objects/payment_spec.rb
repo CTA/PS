@@ -77,4 +77,22 @@ describe "An instance of", PS::Payment do
       end
     end
   end
+
+  describe "&update_by_find" do
+    before do
+      8.times do
+        PS::Payment.make(customer_id, amount, customer_account_id)
+      end
+    end
+    subject do
+      PS::Payment.make(customer_id, amount, customer_account_id)
+    end
+
+    it "should iterate through the payments and update the correct attrs" do
+      payment = subject
+      payment.status.should == PaymentStatus::AUTHORIZED
+      payment.cancel
+      payment.status.should == PaymentStatus::VOIDED
+    end
+  end
 end

@@ -42,24 +42,27 @@ module PS
         Proc.new do
           i = 0
           loop do
-            payments = self.class.list(self.customer_id,
-                                       { :page => i, :items_per_page => 200 })
+            payments = self.class
+            .list(self.customer_id, { :page => i, :items_per_page => 200 })
             case payments
             when []
               break
             when Array
+              updated = false
               payments.each do |payment|
                 if payment.ps_reference_id == self.ps_reference_id then
                   set_attributes(payment.attributes) 
+                  updated = true
                   break
                 end
               end
+              break if updated
             when PS::Payment
               if payments.ps_reference_id == self.ps_reference_id then
                 set_attributes(payments.attributes) 
               end
               # break here because if only one payment is returned, then it's
-              # only one that exists...
+              # only one that exists or it is the last one...
               break
             end
             i += 1

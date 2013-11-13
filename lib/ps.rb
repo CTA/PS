@@ -1,13 +1,13 @@
-#gems
+# gems
 require 'httparty'
 require 'json'
 
-#core classes
+# core classes
 require 'ps/exceptions'
 require 'ps/api'
 require 'ps/base'
 
-#ps objects
+# ps objects
 require 'ps/object'
 require 'ps/objects/customer'
 require 'ps/objects/customer_account'
@@ -19,11 +19,10 @@ require 'ps/objects/user'
 
 
 require 'ps/response'
-
-#enumerables
+# enumerables 
 require 'ps/enumerations'
 
-#util
+# util
 require 'ps/util.rb'
 require 'ps/util/string'
 require 'ps/util/hash'
