@@ -8,7 +8,7 @@ We hope to replace the already existing paysimple gem that hasn't been updated i
 
 Add this line to your application's Gemfile:
 
-    gem 'paysimple'
+    gem 'pay_simple'
 
 And then execute:
 
@@ -16,13 +16,13 @@ And then execute:
 
 Or install it yourself as:
 
-    $ gem install paysimple
+    $ gem install pay_simple
 
 ## Usage
   please note that the documention, and the gem are still works in progress. Clone this repo for usage at your own risk.
 
 ### Connection to paysimple
-    require 'paysimple' 
+    require 'pay_simple' 
     PS::Base.establish_connection(
       :format => "JSON",
       :apikey => your_api_key,
@@ -30,7 +30,7 @@ Or install it yourself as:
       :company_name => your_company_name
     )
 ### Creating a customer
-    require 'paysimple'
+    require 'pay_simple'
     PS::Base.establish_connection( ... )
 
     customer_params = {                                                  
