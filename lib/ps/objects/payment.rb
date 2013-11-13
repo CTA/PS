@@ -16,11 +16,13 @@ module PS
       end
       
       def reverse_by_id(payment_id)
-        request("reversepayment", { :paymentId => payment_id }, &instantiate_by_find)
+        request("reversepayment", { :paymentId => payment_id })
+        true
       end
 
       def cancel_by_id(payment_id)
         request("cancelpayment", { :paymentId =>  payment_id })
+        true
       end
 
       def make(customer_id, amount, account_id=nil, cid="", order_details=nil)
@@ -34,5 +36,35 @@ module PS
           }, &instantiate_object)
       end
     end
+
+    private
+      def update_by_find
+        Proc.new do
+          i = 0
+          loop do
+            payments = self.class.list(self.customer_id,
+                                       { :page => i, :items_per_page => 200 })
+            case payments
+            when []
+              break
+            when Array
+              payments.each do |payment|
+                if payment.ps_reference_id == self.ps_reference_id then
+                  set_attributes(payment.attributes) 
+                  break
+                end
+              end
+            when PS::Payment
+              if payments.ps_reference_id == self.ps_reference_id then
+                set_attributes(payments.attributes) 
+              end
+              # break here because if only one payment is returned, then it's
+              # only one that exists...
+              break
+            end
+            i += 1
+          end
+        end
+      end
   end
 end
